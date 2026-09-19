@@ -1,152 +1,20 @@
-/* ==========================================================================
-   Account.module.css - Модульный CSS для Толибова
-   Здесь Толибов пишет свой чистый CSS.
-   Стили изолированы и не конфликтуют с Tailwind!
-   Использование в JSX:
-   import styles from './Account.module.css';
-   <div className={styles.myContainer}>
-   ========================================================================== */
-
-/* Контейнер страницы */
-.accountWrapper {
-  max-width: 960px;
+.container {
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 60px 16px 80px;
-  font-family: 'Montserrat', sans-serif;
-  color: #112211;
-}
-
-/* Карточка-заглушка для Толибова */
-.placeholderCard {
-  background-color: #ffffff;
-  border: 2px dashed #8DD3BB;
-  border-radius: 24px;
-  padding: 48px 32px;
+  padding: 120px 16px;
   text-align: center;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
-}
-
-.iconCircle {
-  width: 64px;
-  height: 64px;
-  border-radius: 16px;
-  background-color: rgba(141, 211, 187, 0.2);
-  color: #00845B;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 24px;
-}
-
-.badge {
-  display: inline-block;
-  background-color: rgba(141, 211, 187, 0.2);
-  color: #00845B;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 4px 14px;
-  border-radius: 9999px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 16px;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .title {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 800;
   color: #112211;
   margin-bottom: 12px;
 }
 
-.description {
-  font-size: 15px;
-  color: #4b5563;
-  line-height: 1.6;
-  max-width: 620px;
-  margin: 0 auto 32px;
+.subtitle {
+  font-size: 18px;
+  color: #6b7280;
+  font-weight: 500;
 }
-
-.codeBadge {
-  background-color: #f3f4f6;
-  padding: 3px 8px;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #112211;
-}
-
-/* Блок с требованиями по макету */
-.taskBox {
-  background-color: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 16px;
-  padding: 24px;
-  text-align: left;
-  max-width: 540px;
-  margin: 0 auto 32px;
-}
-
-.taskTitle {
-  font-size: 14px;
-  font-weight: 700;
-  color: #112211;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.taskList {
-  font-size: 13px;
-  color: #4b5563;
-  line-height: 1.6;
-  padding-left: 20px;
-}
-
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 16px;
-}
-
-.guideBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background-color: #8DD3BB;
-  color: #112211;
-  font-weight: 700;
-  font-size: 14px;
-  padding: 10px 22px;
-  border-radius: 12px;
-  text-decoration: none;
-  transition: all 0.2s;
-}
-
-.guideBtn:hover {
-  background-color: #7BC6AE;
-}
-
-.figmaBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background-color: transparent;
-  color: #374151;
-  border: 1px solid #d1d5db;
-  font-weight: 700;
-  font-size: 14px;
-  padding: 10px 22px;
-  border-radius: 12px;
-  text-decoration: none;
-  transition: all 0.2s;
-}
-
-.figmaBtn:hover {
-  background-color: #f9fafb;
-}
-
-/* ==========================================================================
-   Толибов, добавляй свои новые стили для профиля ниже:
-   ========================================================================== */
