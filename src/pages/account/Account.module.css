@@ -1,0 +1,276 @@
+/* ==========================================================================
+   Account.module.css - Модульный CSS для Толибова
+   Данный файл использует чистый CSS (CSS Modules).
+   Стили изолированы и применяются через импорт:
+   import styles from './Account.module.css';
+   className={styles.myClass}
+   ========================================================================== */
+
+/* Главный контейнер страницы аккаунта */
+.accountWrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px 80px 16px;
+  font-family: 'Montserrat', sans-serif;
+  color: #112211;
+}
+
+/* Карточка назначения для Толибова */
+.assignmentBanner {
+  background-color: #f0fdf4;
+  border: 2px dashed #4ade80;
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.assignmentBadge {
+  display: inline-block;
+  background-color: #dcfce7;
+  color: #166534;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  width: fit-content;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.assignmentTitle {
+  font-size: 22px;
+  font-weight: 800;
+  color: #112211;
+  margin: 0;
+}
+
+.assignmentDesc {
+  font-size: 14px;
+  color: #4b5563;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Секция обложки и аватара профиля (как в макете Figma) */
+.profileHeader {
+  position: relative;
+  margin-bottom: 80px;
+}
+
+.coverContainer {
+  width: 100%;
+  height: 260px;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(135deg, #8DD3BB 0%, #00845B 100%);
+}
+
+.coverImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.uploadCoverBtn {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  background-color: #8DD3BB;
+  color: #112211;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.uploadCoverBtn:hover {
+  background-color: #7BC6AE;
+}
+
+/* Карточка с аватаром по центру */
+.avatarCard {
+  position: absolute;
+  bottom: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.avatarWrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 4px solid #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  background-color: #e5e7eb;
+  overflow: hidden;
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.userName {
+  font-size: 20px;
+  font-weight: 700;
+  color: #112211;
+  margin: 12px 0 2px 0;
+}
+
+.userEmail {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Навигационные вкладки (Tabs) */
+.tabsContainer {
+  display: flex;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  padding: 6px;
+  margin-bottom: 28px;
+  gap: 8px;
+}
+
+.tabButton {
+  flex: 1;
+  padding: 14px 20px;
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.tabButton:hover {
+  color: #112211;
+  background-color: #f3f4f6;
+}
+
+.tabButtonActive {
+  background-color: #8DD3BB !important;
+  color: #112211 !important;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(141, 211, 187, 0.4);
+}
+
+/* Основная контентная карточка */
+.infoCard {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f0f0f0;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f3f4f6;
+  padding-bottom: 20px;
+  margin-bottom: 28px;
+}
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #112211;
+  margin: 0;
+}
+
+.editButton {
+  background-color: transparent;
+  border: 1px solid #8DD3BB;
+  color: #112211;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.editButton:hover {
+  background-color: #8DD3BB;
+}
+
+/* Сетка полей профиля */
+.detailsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .detailsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.fieldItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fieldLabel {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.fieldValue {
+  font-size: 15px;
+  color: #112211;
+  font-weight: 600;
+  padding: 12px 16px;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+/* История бронирований */
+.bookingCard {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: box-shadow 0.2s;
+}
+
+.bookingCard:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.badgeStatus {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  background-color: #dcfce7;
+  color: #15803d;
+  border-radius: 4px;
+}
