@@ -132,7 +132,7 @@ export default function Header({ transparent = false }) {
               ? 'w-[94%] sm:w-[90%] max-w-4xl h-14 rounded-full bg-[#112211]/92 backdrop-blur-2xl text-white shadow-[0_20px_45px_-10px_rgba(0,0,0,0.5),0_0_20px_rgba(141,211,187,0.15)] px-4 sm:px-6 translate-y-2.5 sm:translate-y-3.5'
               : (transparent
                   ? 'max-w-7xl px-4 sm:px-6 lg:px-8 h-20 text-white bg-transparent translate-y-0'
-                  : 'max-w-7xl px-4 sm:px-6 lg:px-8 h-20 text-[#112211] bg-transparent translate-y-0')
+                  : 'max-w-7xl px-4 sm:px-6 lg:px-8 h-20 text-[#112211] dark:text-white bg-transparent translate-y-0')
           }`}
           style={{
             willChange: 'transform, max-width, height, border-radius, background-color, box-shadow'
@@ -150,7 +150,7 @@ export default function Header({ transparent = false }) {
                       : 'text-white/80 hover:text-white hover:bg-white/10 px-3.5 py-1.5 rounded-full text-xs font-semibold')
                   : (isFlightActive
                       ? 'border-b-2 border-[#8DD3BB] text-[#8DD3BB] pb-1 text-sm font-semibold'
-                      : 'border-b-2 border-transparent hover:text-[#8DD3BB] pb-1 text-sm font-semibold')
+                      : 'border-b-2 border-transparent hover:text-[#8DD3BB] pb-1 text-sm font-semibold text-[#112211] dark:text-gray-200')
               }`}
             >
               <Plane className="w-3.5 h-3.5 transform -rotate-45" />
@@ -166,7 +166,7 @@ export default function Header({ transparent = false }) {
                       : 'text-white/80 hover:text-white hover:bg-white/10 px-3.5 py-1.5 rounded-full text-xs font-semibold')
                   : (isHotelActive
                       ? 'border-b-2 border-[#8DD3BB] text-[#8DD3BB] pb-1 text-sm font-semibold'
-                      : 'border-b-2 border-transparent hover:text-[#8DD3BB] pb-1 text-sm font-semibold')
+                      : 'border-b-2 border-transparent hover:text-[#8DD3BB] pb-1 text-sm font-semibold text-[#112211] dark:text-gray-200')
               }`}
             >
               <Bed className="w-3.5 h-3.5" />

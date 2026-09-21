@@ -902,8 +902,13 @@ export default function HotelsPage() {
                         lg:grid-cols-[1fr_1.2fr]
                         gap-5
                         bg-[#D5EFE7]
+                        dark:bg-[#15271E]
+                        border
+                        border-transparent
+                        dark:border-[#2D4539]
                         rounded-[12px]
                         overflow-hidden
+                        transition-colors
                     ">
 
                         <div className="
@@ -916,8 +921,10 @@ export default function HotelsPage() {
 
                             <span className="
                                 text-[10px]
-                                text-[#478073]
-                                font-medium
+                                text-[#00845B]
+                                dark:text-[#8DD3BB]
+                                font-bold
+                                tracking-wider
                                 mb-2
                             ">
                                 ADVENTURE AWAITS
@@ -929,6 +936,8 @@ export default function HotelsPage() {
                                 sm:text-[32px]
                                 font-bold
                                 leading-tight
+                                text-[#112211]
+                                dark:text-white
                             ">
                                 Backpacking
                                 <br />
@@ -940,6 +949,7 @@ export default function HotelsPage() {
                                 text-[11px]
                                 sm:text-[12px]
                                 text-[#557067]
+                                dark:text-gray-300
                                 leading-5
                                 mt-4
                                 max-w-[360px]
@@ -954,12 +964,19 @@ export default function HotelsPage() {
                                 className="
                                     mt-6
                                     bg-[#112211]
+                                    hover:bg-[#1f381f]
                                     text-white
+                                    dark:bg-[#8DD3BB]
+                                    dark:text-[#112211]
+                                    dark:hover:bg-[#7BC6AE]
                                     rounded-[5px]
                                     px-6
                                     py-3
                                     text-[10px]
+                                    font-bold
                                     w-fit
+                                    cursor-pointer
+                                    transition-colors
                                 "
                             >
                                 Explore now
@@ -1206,6 +1223,10 @@ export default function HotelsPage() {
 
                     <div className="
                         bg-[#CFEDE4]
+                        dark:bg-[#15271E]
+                        border
+                        border-transparent
+                        dark:border-[#2D4539]
                         rounded-[12px]
                         p-7
                         sm:p-10
@@ -1216,14 +1237,17 @@ export default function HotelsPage() {
                         items-center
                         justify-between
                         gap-7
+                        transition-colors
                     ">
 
                         <div>
 
                             <p className="
                                 text-[10px]
-                                text-[#47796C]
-                                font-medium
+                                text-[#00845B]
+                                dark:text-[#8DD3BB]
+                                font-bold
+                                tracking-wider
                             ">
                                 Subscribe
                             </p>
@@ -1233,6 +1257,8 @@ export default function HotelsPage() {
                                 sm:text-[32px]
                                 font-bold
                                 mt-1
+                                text-[#112211]
+                                dark:text-white
                             ">
                                 Subscribe Newsletter
                             </h2>
@@ -1241,6 +1267,7 @@ export default function HotelsPage() {
                                 text-[10px]
                                 sm:text-[11px]
                                 text-[#57746D]
+                                dark:text-gray-300
                                 mt-2
                             ">
                                 Get the latest travel news and offers.
@@ -1254,6 +1281,10 @@ export default function HotelsPage() {
                             w-full
                             md:w-auto
                             bg-white
+                            dark:bg-[#0B130E]
+                            border
+                            border-transparent
+                            dark:border-[#2D3D36]
                             rounded-[5px]
                             overflow-hidden
                             max-w-[390px]
@@ -1266,7 +1297,12 @@ export default function HotelsPage() {
                                     min-w-0
                                     px-4
                                     h-[42px]
-                                    text-[10px]
+                                    text-[11px]
+                                    bg-transparent
+                                    text-[#112211]
+                                    dark:text-white
+                                    placeholder-gray-400
+                                    dark:placeholder-gray-500
                                     outline-none
                                 "
                             />
@@ -1275,9 +1311,16 @@ export default function HotelsPage() {
                                 type="button"
                                 className="
                                     bg-[#112211]
+                                    hover:bg-[#1f381f]
                                     text-white
+                                    dark:bg-[#8DD3BB]
+                                    dark:text-[#112211]
+                                    dark:hover:bg-[#7BC6AE]
                                     px-5
                                     text-[10px]
+                                    font-bold
+                                    cursor-pointer
+                                    transition-colors
                                 "
                             >
                                 Subscribe

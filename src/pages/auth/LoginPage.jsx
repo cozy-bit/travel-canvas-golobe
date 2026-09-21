@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import slider_photo1 from "../../assets/images/auth/auth-side.png";
 import monkeyAvatarImg from "../../assets/images/account/monkey-1.png";
 import ThemeToggle from "../../components/ui/ThemeToggle";
+import { GoogleIcon, FacebookIcon, AppleIcon } from "../../components/ui/SocialIcons";
 
 /* =====================================================
    LOGO — ORIGINAL LOGIN LOGO
@@ -50,6 +51,7 @@ function PasswordInput({
                     sm:text-[12px]
                     font-medium
                     text-[#374151]
+                    dark:text-gray-200
                     mb-2
                 "
             >
@@ -67,17 +69,23 @@ function PasswordInput({
                         h-[46px]
                         border
                         border-[#D1D5DB]
+                        dark:border-[#2D3D36]
+                        bg-white
+                        dark:bg-[#141F1A]
                         rounded-[8px]
                         px-3
                         pr-11
                         text-[12px]
                         sm:text-[13px]
                         text-[#222]
+                        dark:text-white
+                        placeholder-gray-400
+                        dark:placeholder-gray-500
                         outline-none
                         transition
-                        focus:border-[#3F7D58]
+                        focus:border-[#8DD3BB]
                         focus:ring-2
-                        focus:ring-[#3F7D58]/10
+                        focus:ring-[#8DD3BB]/20
                     "
                 />
 
@@ -89,10 +97,13 @@ function PasswordInput({
                         right-3
                         top-1/2
                         -translate-y-1/2
-                        text-[#777]
+                        text-gray-400
+                        dark:text-gray-400
                         text-[13px]
-                        hover:text-[#3F7D58]
+                        hover:text-[#112211]
+                        dark:hover:text-white
                         transition
+                        cursor-pointer
                     "
                 >
                     {show ? "◉" : "◌"}
@@ -120,6 +131,7 @@ function EmailInput({
                     sm:text-[12px]
                     font-medium
                     text-[#374151]
+                    dark:text-gray-200
                     mb-2
                 "
             >
@@ -136,16 +148,22 @@ function EmailInput({
                     h-[46px]
                     border
                     border-[#D1D5DB]
+                    dark:border-[#2D3D36]
+                    bg-white
+                    dark:bg-[#141F1A]
                     rounded-[8px]
                     px-3
                     text-[12px]
                     sm:text-[13px]
                     text-[#222]
+                    dark:text-white
+                    placeholder-gray-400
+                    dark:placeholder-gray-500
                     outline-none
                     transition
-                    focus:border-[#3F7D58]
+                    focus:border-[#8DD3BB]
                     focus:ring-2
-                    focus:ring-[#3F7D58]/10
+                    focus:ring-[#8DD3BB]/20
                 "
             />
         </div>
@@ -163,63 +181,75 @@ function SocialButtons({ onSocialLogin }) {
                 type="button"
                 onClick={() => onSocialLogin && onSocialLogin("Facebook")}
                 className="
-                    h-[44px]
+                    h-[46px]
                     border
                     border-[#D1D5DB]
+                    dark:border-[#2D3D36]
+                    bg-white
+                    dark:bg-[#141F1A]
                     rounded-[8px]
                     flex
                     items-center
                     justify-center
                     hover:bg-[#F7FAF8]
-                    transition cursor-pointer
+                    dark:hover:bg-white/5
+                    transition
+                    cursor-pointer
+                    shadow-xs
                 "
                 title="Login with Facebook"
             >
-                <span className="text-[#1877F2] font-bold text-[15px]">
-                    f
-                </span>
+                <FacebookIcon className="w-5 h-5 text-[#1877F2]" />
             </button>
 
             <button
                 type="button"
                 onClick={() => onSocialLogin && onSocialLogin("Google")}
                 className="
-                    h-[44px]
+                    h-[46px]
                     border
                     border-[#D1D5DB]
+                    dark:border-[#2D3D36]
+                    bg-white
+                    dark:bg-[#141F1A]
                     rounded-[8px]
                     flex
                     items-center
                     justify-center
                     hover:bg-[#F7FAF8]
-                    transition cursor-pointer
+                    dark:hover:bg-white/5
+                    transition
+                    cursor-pointer
+                    shadow-xs
                 "
                 title="Login with Google"
             >
-                <span className="text-[#4285F4] font-bold text-[14px]">
-                    G
-                </span>
+                <GoogleIcon className="w-5 h-5" />
             </button>
 
             <button
                 type="button"
                 onClick={() => onSocialLogin && onSocialLogin("Apple")}
                 className="
-                    h-[44px]
+                    h-[46px]
                     border
                     border-[#D1D5DB]
+                    dark:border-[#2D3D36]
+                    bg-white
+                    dark:bg-[#141F1A]
                     rounded-[8px]
                     flex
                     items-center
                     justify-center
                     hover:bg-[#F7FAF8]
-                    transition cursor-pointer
+                    dark:hover:bg-white/5
+                    transition
+                    cursor-pointer
+                    shadow-xs
                 "
                 title="Login with Apple"
             >
-                <span className="text-black text-[14px]">
-                    
-                </span>
+                <AppleIcon className="w-5 h-5 fill-current text-[#112211] dark:text-white" />
             </button>
         </div>
     );
@@ -232,20 +262,21 @@ function SocialButtons({ onSocialLogin }) {
 function Divider({ text = "Or login with" }) {
     return (
         <div className="flex items-center gap-3 my-6">
-            <div className="h-px bg-[#E5E7EB] flex-1" />
+            <div className="h-px bg-[#E5E7EB] dark:bg-[#2D3D36] flex-1" />
 
             <span
                 className="
                     text-[9px]
                     sm:text-[10px]
                     text-[#9CA3AF]
+                    dark:text-gray-400
                     whitespace-nowrap
                 "
             >
                 {text}
             </span>
 
-            <div className="h-px bg-[#E5E7EB] flex-1" />
+            <div className="h-px bg-[#E5E7EB] dark:bg-[#2D3D36] flex-1" />
         </div>
     );
 }
@@ -288,6 +319,7 @@ function LoginScreen({
                         font-bold
                         tracking-[-1px]
                         text-[#1F2937]
+                        dark:text-white
                     "
                 >
                     Login
@@ -298,6 +330,7 @@ function LoginScreen({
                         text-[11px]
                         sm:text-[12px]
                         text-[#6B7280]
+                        dark:text-gray-300
                         mt-2
                     "
                 >
@@ -342,6 +375,7 @@ function LoginScreen({
                             text-[10px]
                             sm:text-[11px]
                             text-[#4B5563]
+                            dark:text-gray-300
                             cursor-pointer
                         "
                     >
@@ -352,7 +386,7 @@ function LoginScreen({
                                 setRememberMe(e.target.checked)
                             }
                             className="
-                                accent-[#3F7D58]
+                                accent-[#8DD3BB]
                                 w-[13px]
                                 h-[13px]
                             "
@@ -370,8 +404,10 @@ function LoginScreen({
                         className="
                             text-[10px]
                             sm:text-[11px]
-                            text-[#3F7D58]
+                            text-[#00845B]
+                            dark:text-[#8DD3BB]
                             hover:underline
+                            font-medium
                             transition
                         "
                     >
@@ -390,16 +426,17 @@ function LoginScreen({
                     className="
                         w-full
                         h-[46px]
-                        bg-[#3F7D58]
-                        hover:bg-[#356B4B]
-                        text-white
+                        bg-[#8DD3BB]
+                        hover:bg-[#7BC6AE]
+                        text-[#112211]
                         rounded-[8px]
                         text-[11px]
                         sm:text-[12px]
-                        font-medium
+                        font-bold
                         mt-6
                         transition
                         active:scale-[0.99]
+                        cursor-pointer
                     "
                 >
                     Login
@@ -412,6 +449,7 @@ function LoginScreen({
                     text-[10px]
                     sm:text-[11px]
                     text-[#6B7280]
+                    dark:text-gray-400
                     mt-5
                 "
             >
@@ -420,8 +458,9 @@ function LoginScreen({
                 <Link
                     to="/signup"
                     className="
-                        text-[#3F7D58]
-                        font-medium
+                        text-[#00845B]
+                        dark:text-[#8DD3BB]
+                        font-semibold
                         hover:underline
                     "
                 >
@@ -466,7 +505,9 @@ function ForgotScreen({
                         text-[10px]
                         sm:text-[11px]
                         text-[#6B7280]
+                        dark:text-gray-400
                         hover:text-[#1F2937]
+                        dark:hover:text-white
                         transition
                     "
                 >
@@ -480,6 +521,7 @@ function ForgotScreen({
                         font-bold
                         tracking-[-1px]
                         text-[#1F2937]
+                        dark:text-white
                         mt-6
                     "
                 >
@@ -491,6 +533,7 @@ function ForgotScreen({
                         text-[11px]
                         sm:text-[12px]
                         text-[#6B7280]
+                        dark:text-gray-300
                         leading-5
                         mt-2
                     "
@@ -520,15 +563,16 @@ function ForgotScreen({
                     className="
                         w-full
                         h-[46px]
-                        bg-[#3F7D58]
-                        hover:bg-[#356B4B]
-                        text-white
+                        bg-[#8DD3BB]
+                        hover:bg-[#7BC6AE]
+                        text-[#112211]
                         rounded-[8px]
                         text-[11px]
                         sm:text-[12px]
-                        font-medium
+                        font-bold
                         mt-6
                         transition
+                        cursor-pointer
                     "
                 >
                     Submit
@@ -574,7 +618,9 @@ function VerifyScreen({
                         text-[10px]
                         sm:text-[11px]
                         text-[#6B7280]
+                        dark:text-gray-400
                         hover:text-[#1F2937]
+                        dark:hover:text-white
                         transition
                     "
                 >
@@ -588,6 +634,7 @@ function VerifyScreen({
                         font-bold
                         tracking-[-1px]
                         text-[#1F2937]
+                        dark:text-white
                         mt-6
                     "
                 >
@@ -599,6 +646,7 @@ function VerifyScreen({
                         text-[11px]
                         sm:text-[12px]
                         text-[#6B7280]
+                        dark:text-gray-300
                         leading-5
                         mt-2
                     "
@@ -618,6 +666,7 @@ function VerifyScreen({
                         sm:text-[12px]
                         font-medium
                         text-[#374151]
+                        dark:text-gray-200
                         mb-2
                     "
                 >
@@ -641,15 +690,22 @@ function VerifyScreen({
                         h-[46px]
                         border
                         border-[#D1D5DB]
+                        dark:border-[#2D3D36]
+                        bg-white
+                        dark:bg-[#141F1A]
                         rounded-[8px]
                         px-3
                         text-[13px]
                         tracking-[5px]
                         text-center
+                        text-[#112211]
+                        dark:text-white
+                        placeholder-gray-400
+                        dark:placeholder-gray-500
                         outline-none
-                        focus:border-[#3F7D58]
+                        focus:border-[#8DD3BB]
                         focus:ring-2
-                        focus:ring-[#3F7D58]/10
+                        focus:ring-[#8DD3BB]/20
                     "
                 />
 
@@ -660,12 +716,12 @@ function VerifyScreen({
                 )}
 
                 <div className="flex justify-between items-center mt-4">
-                    <span className="text-[9px] sm:text-[10px] text-[#9CA3AF]">
+                    <span className="text-[9px] sm:text-[10px] text-[#9CA3AF] dark:text-gray-400">
                         Didn't receive a code?
                     </span>
 
                     {timer > 0 ? (
-                        <span className="text-[9px] sm:text-[10px] text-[#3F7D58]">
+                        <span className="text-[9px] sm:text-[10px] text-[#00845B] dark:text-[#8DD3BB]">
                             Resend in {timer}s
                         </span>
                     ) : (
@@ -675,8 +731,11 @@ function VerifyScreen({
                             className="
                                 text-[9px]
                                 sm:text-[10px]
-                                text-[#3F7D58]
+                                text-[#00845B]
+                                dark:text-[#8DD3BB]
                                 hover:underline
+                                font-semibold
+                                cursor-pointer
                             "
                         >
                             Resend
@@ -689,15 +748,16 @@ function VerifyScreen({
                     className="
                         w-full
                         h-[46px]
-                        bg-[#3F7D58]
-                        hover:bg-[#356B4B]
-                        text-white
+                        bg-[#8DD3BB]
+                        hover:bg-[#7BC6AE]
+                        text-[#112211]
                         rounded-[8px]
                         text-[11px]
                         sm:text-[12px]
-                        font-medium
+                        font-bold
                         mt-6
                         transition
+                        cursor-pointer
                     "
                 >
                     Verify
@@ -741,7 +801,9 @@ function PasswordScreen({
                         text-[10px]
                         sm:text-[11px]
                         text-[#6B7280]
+                        dark:text-gray-400
                         hover:text-[#1F2937]
+                        dark:hover:text-white
                         transition
                     "
                 >
@@ -755,6 +817,7 @@ function PasswordScreen({
                         font-bold
                         tracking-[-1px]
                         text-[#1F2937]
+                        dark:text-white
                         mt-6
                     "
                 >
@@ -766,6 +829,7 @@ function PasswordScreen({
                         text-[11px]
                         sm:text-[12px]
                         text-[#6B7280]
+                        dark:text-gray-300
                         leading-5
                         mt-2
                     "
@@ -808,15 +872,16 @@ function PasswordScreen({
                     className="
                         w-full
                         h-[46px]
-                        bg-[#3F7D58]
-                        hover:bg-[#356B4B]
-                        text-white
+                        bg-[#8DD3BB]
+                        hover:bg-[#7BC6AE]
+                        text-[#112211]
                         rounded-[8px]
                         text-[11px]
                         sm:text-[12px]
-                        font-medium
+                        font-bold
                         mt-6
                         transition
+                        cursor-pointer
                     "
                 >
                     Set password
@@ -1221,6 +1286,9 @@ export default function LoginPage() {
                     hidden
                     lg:block
                     p-5
+                    h-screen
+                    sticky
+                    top-0
                     order-2
                 "
             >
@@ -1229,7 +1297,6 @@ export default function LoginPage() {
                         relative
                         w-full
                         h-full
-                        min-h-[600px]
                         overflow-hidden
                         rounded-[12px]
                     "

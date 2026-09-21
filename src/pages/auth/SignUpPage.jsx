@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import slider_photo1 from "../../assets/images/auth/auth-side.png";
 import monkeyAvatarImg from "../../assets/images/account/monkey-1.png";
 import ThemeToggle from "../../components/ui/ThemeToggle";
+import { GoogleIcon, FacebookIcon, AppleIcon } from "../../components/ui/SocialIcons";
 
 // ==================== LOGO ====================
 
@@ -42,7 +43,7 @@ function Input({
     <div className="flex flex-col gap-1.5">
       <label
         htmlFor={name}
-        className="text-sm font-medium text-[#374151]"
+        className="text-sm font-medium text-[#374151] dark:text-gray-200"
       >
         {label}
       </label>
@@ -61,13 +62,17 @@ function Input({
           rounded-[8px]
           border
           bg-white
+          dark:bg-[#141F1A]
           text-[#1F2937]
+          dark:text-white
+          placeholder-gray-400
+          dark:placeholder-gray-500
           outline-none
           transition
           ${
             error
               ? "border-red-500 ring-2 ring-red-500/20"
-              : "border-[#D1D5DB] focus:border-[#3F7D58] focus:ring-2 focus:ring-[#3F7D58]/10"
+              : "border-[#D1D5DB] dark:border-[#2D3D36] focus:border-[#8DD3BB] focus:ring-2 focus:ring-[#8DD3BB]/20"
           }
         `}
       />
@@ -97,7 +102,7 @@ function PasswordInput({
     <div className="flex flex-col gap-1.5">
       <label
         htmlFor={name}
-        className="text-sm font-medium text-[#374151]"
+        className="text-sm font-medium text-[#374151] dark:text-gray-200"
       >
         {label}
       </label>
@@ -118,13 +123,17 @@ function PasswordInput({
             rounded-[8px]
             border
             bg-white
+            dark:bg-[#141F1A]
             text-[#1F2937]
+            dark:text-white
+            placeholder-gray-400
+            dark:placeholder-gray-500
             outline-none
             transition
             ${
               error
                 ? "border-red-500 ring-2 ring-red-500/20"
-                : "border-[#D1D5DB] focus:border-[#3F7D58] focus:ring-2 focus:ring-[#3F7D58]/10"
+                : "border-[#D1D5DB] dark:border-[#2D3D36] focus:border-[#8DD3BB] focus:ring-2 focus:ring-[#8DD3BB]/20"
             }
           `}
         />
@@ -144,6 +153,8 @@ function PasswordInput({
             h-7
             text-[#6B7280]
             hover:text-[#374151]
+            dark:text-gray-400
+            dark:hover:text-gray-200
             transition
             cursor-pointer
           "
@@ -227,23 +238,26 @@ function PasswordInput({
 
 function SocialButtons({ onSocialLogin }) {
   return (
-    <div className="grid grid-cols-2 gap-3">
+    <div className="grid grid-cols-3 gap-4">
       <button
         type="button"
         onClick={() => onSocialLogin && onSocialLogin("Google")}
         className="
           h-[46px]
-          rounded-[8px]
           border border-[#D1D5DB]
+          dark:border-[#2D3D36]
           bg-white
-          flex items-center justify-center gap-2
-          text-sm font-medium
-          hover:bg-gray-50
+          dark:bg-[#141F1A]
+          rounded-[8px]
+          flex items-center justify-center
+          hover:bg-[#F7FAF8]
+          dark:hover:bg-white/5
           transition cursor-pointer
+          shadow-xs
         "
+        title="Sign up with Google"
       >
-        <span className="font-bold text-[#4285F4]">G</span>
-        Google
+        <GoogleIcon className="w-5 h-5" />
       </button>
 
       <button
@@ -251,17 +265,41 @@ function SocialButtons({ onSocialLogin }) {
         onClick={() => onSocialLogin && onSocialLogin("Facebook")}
         className="
           h-[46px]
-          rounded-[8px]
           border border-[#D1D5DB]
+          dark:border-[#2D3D36]
           bg-white
-          flex items-center justify-center gap-2
-          text-sm font-medium
-          hover:bg-gray-50
+          dark:bg-[#141F1A]
+          rounded-[8px]
+          flex items-center justify-center
+          hover:bg-[#F7FAF8]
+          dark:hover:bg-white/5
           transition cursor-pointer
+          shadow-xs
         "
+        title="Sign up with Facebook"
       >
-        <span className="font-bold text-[#1877F2]">f</span>
-        Facebook
+        <FacebookIcon className="w-5 h-5 fill-[#1877F2]" />
+      </button>
+
+      <button
+        type="button"
+        onClick={() => onSocialLogin && onSocialLogin("Apple")}
+        className="
+          h-[46px]
+          border border-[#D1D5DB]
+          dark:border-[#2D3D36]
+          bg-white
+          dark:bg-[#141F1A]
+          rounded-[8px]
+          flex items-center justify-center
+          hover:bg-[#F7FAF8]
+          dark:hover:bg-white/5
+          transition cursor-pointer
+          shadow-xs
+        "
+        title="Sign up with Apple"
+      >
+        <AppleIcon className="w-5 h-5 fill-current text-[#112211] dark:text-white" />
       </button>
     </div>
   );
@@ -272,9 +310,9 @@ function SocialButtons({ onSocialLogin }) {
 function Divider() {
   return (
     <div className="flex items-center gap-4 my-5">
-      <div className="flex-1 h-px bg-[#E5E7EB]" />
-      <span className="text-sm text-[#9CA3AF]">or</span>
-      <div className="flex-1 h-px bg-[#E5E7EB]" />
+      <div className="flex-1 h-px bg-[#E5E7EB] dark:bg-[#2D3D36]" />
+      <span className="text-sm text-[#9CA3AF] dark:text-gray-400">or</span>
+      <div className="flex-1 h-px bg-[#E5E7EB] dark:bg-[#2D3D36]" />
     </div>
   );
 }
@@ -302,11 +340,11 @@ function SignUpScreen({
       <div className="mb-7">
         <Logo />
 
-        <h1 className="text-3xl sm:text-4xl font-bold text-[#1F2937] mt-8">
+        <h1 className="text-3xl sm:text-4xl font-bold text-[#1F2937] dark:text-white mt-8">
           Create an account
         </h1>
 
-        <p className="text-[#6B7280] mt-2">
+        <p className="text-[#6B7280] dark:text-gray-300 mt-2">
           Join us and start your journey.
         </p>
       </div>
@@ -389,21 +427,21 @@ function SignUpScreen({
               type="checkbox"
               checked={accepted}
               onChange={(e) => setAccepted(e.target.checked)}
-              className="mt-1 accent-[#3F7D58]"
+              className="mt-1 accent-[#8DD3BB]"
             />
 
-            <span className="text-sm text-[#6B7280] leading-5">
+            <span className="text-sm text-[#6B7280] dark:text-gray-300 leading-5">
               I agree to the{" "}
               <Link
                 to="/terms"
-                className="text-[#3F7D58] hover:underline"
+                className="text-[#00845B] dark:text-[#8DD3BB] font-medium hover:underline"
               >
                 Terms & Conditions
               </Link>{" "}
               and{" "}
               <Link
                 to="/privacy"
-                className="text-[#3F7D58] hover:underline"
+                className="text-[#00845B] dark:text-[#8DD3BB] font-medium hover:underline"
               >
                 Privacy Policy
               </Link>
@@ -423,10 +461,10 @@ function SignUpScreen({
             w-full
             h-[48px]
             rounded-[8px]
-            bg-[#3F7D58]
-            text-white
-            font-semibold
-            hover:bg-[#356b4b]
+            bg-[#8DD3BB]
+            text-[#112211]
+            font-bold
+            hover:bg-[#7BC6AE]
             transition
             cursor-pointer
             mt-2
@@ -436,11 +474,11 @@ function SignUpScreen({
         </button>
       </form>
 
-      <p className="text-center text-sm text-[#6B7280] mt-6">
+      <p className="text-center text-sm text-[#6B7280] dark:text-gray-400 mt-6">
         Already have an account?{" "}
         <Link
           to="/login"
-          className="text-[#3F7D58] font-semibold hover:underline"
+          className="text-[#00845B] dark:text-[#8DD3BB] font-semibold hover:underline"
         >
           Log in
         </Link>
@@ -471,17 +509,15 @@ function VerifyScreen({
       <Logo />
 
       <div className="mt-10">
-        <h1 className="text-3xl sm:text-4xl font-bold text-[#1F2937]">
+        <h1 className="text-3xl sm:text-4xl font-bold text-[#1F2937] dark:text-white">
           Verify your email
         </h1>
 
-        <p className="text-[#6B7280] mt-3 leading-6">
+        <p className="text-[#6B7280] dark:text-gray-300 mt-3 leading-6">
           We sent a verification code to your email.
           Enter the 6-digit code below.
         </p>
       </div>
-
-
 
       <form
         onSubmit={handleVerify}
@@ -490,7 +526,7 @@ function VerifyScreen({
         <div className="flex flex-col gap-2">
           <label
             htmlFor="verificationCode"
-            className="text-sm font-medium text-[#374151]"
+            className="text-sm font-medium text-[#374151] dark:text-gray-200"
           >
             Verification code
           </label>
@@ -513,13 +549,20 @@ function VerifyScreen({
               px-4
               rounded-[8px]
               border border-[#D1D5DB]
+              dark:border-[#2D3D36]
+              bg-white
+              dark:bg-[#141F1A]
+              text-[#112211]
+              dark:text-white
+              placeholder-gray-400
+              dark:placeholder-gray-500
               text-center
               text-xl
               tracking-[0.5em]
               outline-none
-              focus:border-[#3F7D58]
+              focus:border-[#8DD3BB]
               focus:ring-2
-              focus:ring-[#3F7D58]/10
+              focus:ring-[#8DD3BB]/20
             "
           />
 
@@ -536,10 +579,10 @@ function VerifyScreen({
             w-full
             h-[48px]
             rounded-[8px]
-            bg-[#3F7D58]
-            text-white
-            font-semibold
-            hover:bg-[#356b4b]
+            bg-[#8DD3BB]
+            text-[#112211]
+            font-bold
+            hover:bg-[#7BC6AE]
             transition
             cursor-pointer
           "
@@ -548,11 +591,11 @@ function VerifyScreen({
         </button>
       </form>
 
-      <div className="text-center mt-6 text-sm text-[#6B7280]">
+      <div className="text-center mt-6 text-sm text-[#6B7280] dark:text-gray-400">
         {timer > 0 ? (
           <span>
             Resend code in{" "}
-            <span className="font-semibold text-[#3F7D58]">
+            <span className="font-semibold text-[#00845B] dark:text-[#8DD3BB]">
               {timer}s
             </span>
           </span>
@@ -560,7 +603,7 @@ function VerifyScreen({
           <button
             type="button"
             onClick={handleResend}
-            className="text-[#3F7D58] font-semibold hover:underline cursor-pointer"
+            className="text-[#00845B] dark:text-[#8DD3BB] font-semibold hover:underline cursor-pointer"
           >
             Resend code
           </button>
@@ -570,7 +613,7 @@ function VerifyScreen({
       <div className="text-center mt-4">
         <Link
           to="/login"
-          className="text-sm text-[#6B7280] hover:text-[#3F7D58]"
+          className="text-sm text-[#6B7280] dark:text-gray-400 hover:text-[#00845B] dark:hover:text-[#8DD3BB]"
         >
           Back to login
         </Link>
@@ -781,55 +824,115 @@ export default function SignUpPage() {
   // ==================== RENDER ====================
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0B130E] text-[#112211] dark:text-[#F3F4F6] relative transition-colors duration-300">
+    <main
+      className="
+        min-h-screen
+        bg-white
+        dark:bg-[#0B130E]
+        text-[#112211]
+        dark:text-[#F3F4F6]
+        grid
+        grid-cols-1
+        lg:grid-cols-2
+        relative
+        transition-colors
+        duration-300
+      "
+    >
       {/* Quick floating theme toggle */}
       <div className="fixed top-4 right-4 z-50">
         <ThemeToggle />
       </div>
 
-      <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
-        {/* LEFT SIDE */}
-        <div className="flex items-center justify-center px-5 py-8 sm:px-8 lg:px-12 xl:px-20">
-          <div className="w-full max-w-[520px]">
-            <AnimatePresence mode="wait">
-              {screen === "signup" ? (
-                <SignUpScreen
-                  key="signup"
-                  form={form}
-                  errors={errors}
-                  accepted={accepted}
-                  setAccepted={setAccepted}
-                  handleChange={handleChange}
-                  handleSubmit={handleSubmit}
-                  onSocialLogin={handleSocialLogin}
-                />
-              ) : (
-                <VerifyScreen
-                  key="verify"
-                  verificationCode={verificationCode}
-                  setVerificationCode={setVerificationCode}
-                  handleVerify={handleVerify}
-                  verifyError={verifyError}
-                  timer={timer}
-                  handleResend={handleResend}
-                />
-              )}
-            </AnimatePresence>
-          </div>
+      {/* LEFT — FORM */}
+      <section
+        className="
+          flex
+          items-center
+          justify-center
+          px-5
+          py-10
+          sm:px-8
+          lg:px-12
+          xl:px-20
+          order-1
+          lg:order-none
+        "
+      >
+        <div className="w-full max-w-[520px]">
+          <AnimatePresence mode="wait">
+            {screen === "signup" ? (
+              <SignUpScreen
+                key="signup"
+                form={form}
+                errors={errors}
+                accepted={accepted}
+                setAccepted={setAccepted}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+                onSocialLogin={handleSocialLogin}
+              />
+            ) : (
+              <VerifyScreen
+                key="verify"
+                verificationCode={verificationCode}
+                setVerificationCode={setVerificationCode}
+                handleVerify={handleVerify}
+                verifyError={verifyError}
+                timer={timer}
+                handleResend={handleResend}
+              />
+            )}
+          </AnimatePresence>
         </div>
+      </section>
 
-        {/* RIGHT SIDE — STATIC IMAGE */}
-        <div className="hidden lg:block p-5">
-          <div className="relative w-full h-full min-h-[600px] overflow-hidden rounded-[12px]">
-            <img
-              src={slider_photo1}
-              alt="Travel destination"
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent pointer-events-none" />
-          </div>
+      {/* RIGHT — STATIC IMAGE */}
+      <section
+        className="
+          hidden
+          lg:block
+          p-5
+          h-screen
+          sticky
+          top-0
+          order-2
+        "
+      >
+        <div
+          className="
+            relative
+            w-full
+            h-full
+            overflow-hidden
+            rounded-[12px]
+          "
+        >
+          <img
+            src={slider_photo1}
+            alt="Travel destination"
+            className="
+              absolute
+              inset-0
+              w-full
+              h-full
+              object-cover
+            "
+          />
+
+          <div
+            className="
+              absolute
+              inset-0
+              bg-gradient-to-t
+              from-black/10
+              via-transparent
+              to-transparent
+              pointer-events-none
+            "
+          />
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
