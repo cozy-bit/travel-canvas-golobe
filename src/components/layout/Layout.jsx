@@ -9,7 +9,7 @@ export default function Layout({
   showNewsletter = true,
 }) {
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAFAFA] text-[#112211]">
+    <div className="min-h-screen flex flex-col bg-[#FAFAFA] dark:bg-[#0B130E] text-[#112211] dark:text-[#F3F4F6] transition-colors duration-300">
       <Header transparent={transparentHeader} />
       <main className="flex-1">{children}</main>
       {showNewsletter && <Newsletter />}

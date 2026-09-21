@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'motion/react';
 import Layout from '../../components/layout/Layout';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
@@ -37,8 +38,8 @@ export default function FlightBookingPage() {
   });
 
   const [cards, setCards] = useState([
-    { id: 'card-1', brand: 'visa', last4: '4321', exp: '02/27', name: 'John Doe', icon: visaIcon },
-    { id: 'card-2', brand: 'mastercard', last4: '8765', exp: '05/28', name: 'John Doe', icon: mastercardIcon },
+    { id: 'card-1', brand: 'visa', last4: '4321', exp: '02/27', name: 'Cozy Bit', icon: visaIcon },
+    { id: 'card-2', brand: 'mastercard', last4: '8765', exp: '05/28', name: 'Cozy Bit', icon: mastercardIcon },
   ]);
 
   const handleAddCardSubmit = (e) => {
@@ -50,7 +51,7 @@ export default function FlightBookingPage() {
         brand: 'visa',
         last4,
         exp: newCard.exp,
-        name: newCard.name || 'John Doe',
+        name: newCard.name || 'Cozy Bit',
         icon: visaIcon,
       };
       setCards([...cards, added]);
@@ -66,7 +67,12 @@ export default function FlightBookingPage() {
 
   return (
     <Layout showNewsletter={true}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
+      >
         
         {/* Breadcrumbs */}
         <Breadcrumbs
@@ -84,7 +90,7 @@ export default function FlightBookingPage() {
           {/* Main Column */}
           <div className="lg:col-span-8 space-y-8">
             
-            {/* Payment Schedule Selector */}
+            {/* Payment Schedule Selector with Apple Spring Layout */}
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8 space-y-4">
               <h2 className="text-xl font-bold text-[#112211]">
                 Payment Option
@@ -94,37 +100,55 @@ export default function FlightBookingPage() {
                 {/* Pay in full */}
                 <div
                   onClick={() => setPayPlan('full')}
-                  className={`p-5 rounded-xl border-2 cursor-pointer transition-all ${
+                  className={`relative p-5 rounded-xl border-2 cursor-pointer transition-colors ${
                     payPlan === 'full'
                       ? 'border-[#8DD3BB] bg-[#8DD3BB]/10 shadow-xs'
-                      : 'border-gray-200 hover:border-gray-300'
+                      : 'border-gray-200 hover:border-gray-300 bg-white'
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-bold text-base text-[#112211]">Pay in full</span>
-                    <span className="text-lg font-extrabold text-[#112211]">$212</span>
+                  {payPlan === 'full' && (
+                    <motion.div
+                      layoutId="payPlanSelection"
+                      className="absolute inset-0 rounded-xl border-2 border-[#8DD3BB] bg-[#8DD3BB]/10 pointer-events-none"
+                      transition={{ type: 'spring', stiffness: 450, damping: 32 }}
+                    />
+                  )}
+                  <div className="relative z-10">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-bold text-base text-[#112211]">Pay in full</span>
+                      <span className="text-lg font-extrabold text-[#112211]">$212</span>
+                    </div>
+                    <p className="text-xs text-gray-500 leading-relaxed">
+                      Pay the total and you are all set. No extra fees or installments.
+                    </p>
                   </div>
-                  <p className="text-xs text-gray-500 leading-relaxed">
-                    Pay the total and you are all set. No extra fees or installments.
-                  </p>
                 </div>
 
                 {/* Pay part now */}
                 <div
                   onClick={() => setPayPlan('part')}
-                  className={`p-5 rounded-xl border-2 cursor-pointer transition-all ${
+                  className={`relative p-5 rounded-xl border-2 cursor-pointer transition-colors ${
                     payPlan === 'part'
                       ? 'border-[#8DD3BB] bg-[#8DD3BB]/10 shadow-xs'
-                      : 'border-gray-200 hover:border-gray-300'
+                      : 'border-gray-200 hover:border-gray-300 bg-white'
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-bold text-base text-[#112211]">Pay part now, part later</span>
-                    <span className="text-lg font-extrabold text-[#112211]">$50</span>
+                  {payPlan === 'part' && (
+                    <motion.div
+                      layoutId="payPlanSelection"
+                      className="absolute inset-0 rounded-xl border-2 border-[#8DD3BB] bg-[#8DD3BB]/10 pointer-events-none"
+                      transition={{ type: 'spring', stiffness: 450, damping: 32 }}
+                    />
+                  )}
+                  <div className="relative z-10">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-bold text-base text-[#112211]">Pay part now, part later</span>
+                      <span className="text-lg font-extrabold text-[#112211]">$50</span>
+                    </div>
+                    <p className="text-xs text-gray-500 leading-relaxed">
+                      Pay $50 today, and the rest ($162) will be charged automatically before flight day.
+                    </p>
                   </div>
-                  <p className="text-xs text-gray-500 leading-relaxed">
-                    Pay $50 today, and the rest ($162) will be charged automatically before flight day.
-                  </p>
                 </div>
               </div>
             </div>
@@ -244,9 +268,18 @@ export default function FlightBookingPage() {
 
               <div className="pt-4 border-t border-gray-100 flex justify-between items-center">
                 <span className="text-base font-bold text-[#112211]">Amount Due</span>
-                <span className="text-3xl font-black text-[#FF8682]">
-                  ${payPlan === 'full' ? 212 : 50}
-                </span>
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={payPlan}
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 6 }}
+                    transition={{ duration: 0.2 }}
+                    className="text-3xl font-black text-[#FF8682]"
+                  >
+                    ${payPlan === 'full' ? 212 : 50}
+                  </motion.span>
+                </AnimatePresence>
               </div>
 
               <Button
@@ -263,7 +296,7 @@ export default function FlightBookingPage() {
 
         </div>
 
-      </div>
+      </motion.div>
 
       {/* ================= ADD NEW CARD MODAL ================= */}
       <Modal
@@ -276,8 +309,14 @@ export default function FlightBookingPage() {
           <Input
             label="Card Number"
             placeholder="0000 0000 0000 0000"
+            inputMode="numeric"
+            maxLength={19}
             value={newCard.number}
-            onChange={(e) => setNewCard({ ...newCard, number: e.target.value })}
+            onChange={(e) => {
+              const digits = e.target.value.replace(/\D/g, '').slice(0, 16);
+              const formatted = digits.replace(/(\d{4})(?=\d)/g, '$1 ');
+              setNewCard({ ...newCard, number: formatted });
+            }}
             icon={<CreditCard className="w-4 h-4" />}
             required
           />
@@ -286,23 +325,36 @@ export default function FlightBookingPage() {
             <Input
               label="Exp. Date"
               placeholder="MM/YY"
+              inputMode="numeric"
+              maxLength={5}
               value={newCard.exp}
-              onChange={(e) => setNewCard({ ...newCard, exp: e.target.value })}
+              onChange={(e) => {
+                let val = e.target.value.replace(/\D/g, '').slice(0, 4);
+                if (val.length >= 3) {
+                  val = val.slice(0, 2) + '/' + val.slice(2);
+                }
+                setNewCard({ ...newCard, exp: val });
+              }}
               required
             />
             <Input
               label="CVC"
               placeholder="123"
               type="password"
+              inputMode="numeric"
+              maxLength={4}
               value={newCard.cvc}
-              onChange={(e) => setNewCard({ ...newCard, cvc: e.target.value })}
+              onChange={(e) => {
+                const val = e.target.value.replace(/\D/g, '').slice(0, 4);
+                setNewCard({ ...newCard, cvc: val });
+              }}
               required
             />
           </div>
 
           <Input
             label="Name on Card"
-            placeholder="John Doe"
+            placeholder="Cozy Bit"
             value={newCard.name}
             onChange={(e) => setNewCard({ ...newCard, name: e.target.value })}
             required

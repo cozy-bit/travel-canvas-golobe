@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'motion/react';
 import Layout from '../../components/layout/Layout';
 import Button from '../../components/ui/Button';
 import Breadcrumbs from '../../components/ui/Breadcrumbs';
@@ -27,7 +28,12 @@ export default function FlightTicketPage() {
 
   return (
     <Layout showNewsletter={true}>
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
+      >
         
         {/* Breadcrumb */}
         <Breadcrumbs
@@ -42,19 +48,29 @@ export default function FlightTicketPage() {
 
         {/* ================= SUCCESS BANNER ================= */}
         <div className="text-center mb-8">
-          <div className="inline-flex p-3 rounded-full bg-[#8DD3BB]/20 text-[#00845B] mb-3 animate-bounce">
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 20, delay: 0.1 }}
+            className="inline-flex p-3 rounded-full bg-[#8DD3BB]/20 text-[#00845B] mb-3"
+          >
             <CheckCircle className="w-10 h-10" />
-          </div>
+          </motion.div>
           <h1 className="text-3xl sm:text-4xl font-black text-[#112211]">
             Booking Confirmed!
           </h1>
           <p className="text-sm text-gray-500 mt-2 max-w-md mx-auto">
-            Your booking was successful and your e-ticket has been issued. A copy has also been sent to <strong>john.doe@gmail.com</strong>.
+            Your booking was successful and your e-ticket has been issued. A copy has also been sent to <strong>cozybit@gmail.com</strong>.
           </p>
         </div>
 
-        {/* ================= FIGMA BOARDING PASS CARD ================= */}
-        <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden mb-8">
+        {/* ================= FIGMA BOARDING PASS CARD (Apple Wallet Style) ================= */}
+        <motion.div
+          initial={{ opacity: 0, y: 40, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ type: "spring", stiffness: 350, damping: 26, delay: 0.2 }}
+          className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden mb-8"
+        >
           
           {/* Top Header of Ticket */}
           <div className="bg-[#8DD3BB] p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-[#112211]">
@@ -79,7 +95,7 @@ export default function FlightTicketPage() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pb-6 border-b border-dashed border-gray-200">
               <div>
                 <span className="text-xs text-gray-400 font-medium block">Passenger</span>
-                <span className="text-base font-extrabold text-[#112211]">John Doe</span>
+                <span className="text-base font-extrabold text-[#112211]">Cozy Bit</span>
                 <span className="text-xs text-gray-500 block">Adult (18+)</span>
               </div>
 
@@ -114,8 +130,9 @@ export default function FlightTicketPage() {
                 <span className="text-xs font-bold text-gray-400 mb-1">2h 28m • Non-stop</span>
                 <div className="flex items-center gap-2">
                   <div className="w-16 sm:w-28 h-0.5 bg-gray-300" />
-                  <div className="w-8 h-8 rounded-full bg-[#8DD3BB]/20 flex items-center justify-center text-[#00845B]">
-                    <Plane className="w-4 h-4 transform -rotate-45" />
+                  <div className="w-8 h-8 rounded-full bg-[#8DD3BB]/20 flex items-center justify-center text-[#00845B] relative">
+                    <span className="w-full h-full rounded-full bg-[#8DD3BB]/30 animate-ping absolute" />
+                    <Plane className="w-4 h-4 transform -rotate-45 relative z-10" />
                   </div>
                   <div className="w-16 sm:w-28 h-0.5 bg-gray-300" />
                 </div>
@@ -134,7 +151,7 @@ export default function FlightTicketPage() {
               <div className="space-y-1 text-center sm:text-left">
                 <span className="text-xs text-gray-400 font-medium block">Barcode & Verification</span>
                 {/* Visual Barcode Graphic */}
-                <div className="font-mono text-xs tracking-widest text-gray-800 bg-gray-50 px-4 py-2 rounded-md border border-gray-200 inline-block select-none">
+                <div className="font-mono text-xs tracking-widest text-gray-800 bg-gray-50 px-4 py-2 rounded-md border border-gray-200 inline-block select-none shadow-2xs">
                   ||| | | |||| | ||| |||| | || ||| ||||| || | |||| ||
                 </div>
                 <p className="text-[11px] text-gray-400 font-mono">EK894829148002984</p>
@@ -156,7 +173,7 @@ export default function FlightTicketPage() {
             <span className="font-semibold text-gray-700">Golobe Travel Certified</span>
           </div>
 
-        </div>
+        </motion.div>
 
         {/* ================= ACTION BUTTONS ================= */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
@@ -192,7 +209,7 @@ export default function FlightTicketPage() {
           </Link>
         </div>
 
-      </div>
+      </motion.div>
     </Layout>
   );
 }

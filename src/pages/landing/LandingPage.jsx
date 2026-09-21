@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { motion } from 'motion/react';
 import Layout from '../../components/layout/Layout';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
+import CityAutocomplete from '../../components/ui/CityAutocomplete';
 import Select from '../../components/ui/Select';
 import {
   Plane,
@@ -33,6 +35,56 @@ import review1Img from '../../assets/images/landing/review1Img.png';
 import review2Img from '../../assets/images/landing/review2Img.png';
 import review3Img from '../../assets/images/landing/review3Img.png';
 
+// Crisp word-by-word reveal without any blur effect
+function AnimatedWordText({ text, delayOffset = 0, isHeading = false, className = '' }) {
+  const words = text.split(' ');
+
+  const containerVariants = {
+    hidden: { opacity: 1 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: isHeading ? 0.08 : 0.045,
+        delayChildren: delayOffset,
+      },
+    },
+  };
+
+  const wordVariants = {
+    hidden: {
+      opacity: 0,
+      y: isHeading ? 22 : 14,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: isHeading ? 0.6 : 0.45,
+        ease: [0.16, 1, 0.3, 1],
+      },
+    },
+  };
+
+  return (
+    <motion.span
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className={`inline-block ${className}`}
+    >
+      {words.map((word, index) => (
+        <motion.span
+          key={`${word}-${index}`}
+          variants={wordVariants}
+          className="inline-block mr-[0.26em] will-change-transform"
+        >
+          {word}
+        </motion.span>
+      ))}
+    </motion.span>
+  );
+}
+
 export default function LandingPage() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('flights'); // 'flights' | 'stays'
@@ -52,7 +104,16 @@ export default function LandingPage() {
   const handleSearch = (e) => {
     e.preventDefault();
     if (activeTab === 'flights') {
-      navigate('/flights/search');
+      navigate('/flights/search', {
+        state: {
+          fromCity,
+          toCity,
+          tripType,
+          departDate,
+          returnDate,
+          passengers,
+        },
+      });
     } else {
       navigate('/hotels');
     }
@@ -104,9 +165,12 @@ export default function LandingPage() {
     <Layout transparentHeader={true}>
       {/* ================= HERO SECTION ================= */}
       <section className="relative min-h-[620px] sm:min-h-[680px] lg:min-h-[720px] flex items-center justify-center pt-24 pb-36 px-4 sm:px-6 lg:px-8">
-        {/* Background Image with Gradient Overlay */}
+        {/* Background Image with Gradient Overlay & Cinematic Slower Zoom-out */}
         <div className="absolute inset-0 z-0 overflow-hidden">
-          <img
+          <motion.img
+            initial={{ scale: 1.10 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 2.8, ease: [0.16, 1, 0.3, 1] }}
             src={heroBg}
             alt="Golobe Hero Travel"
             className="w-full h-full object-cover object-center"
@@ -114,16 +178,30 @@ export default function LandingPage() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/35 to-black/70" />
         </div>
 
-        {/* Hero Headlines */}
+        {/* Hero Headlines with Word-by-Word Crisp Stagger (Zero Blur) */}
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto mb-16">
           <span className="inline-block text-lg sm:text-2xl font-bold tracking-wider mb-2 text-[#8DD3BB]">
-            Helping Others
+            <AnimatedWordText
+              text="Helping Others"
+              delayOffset={0.2}
+              isHeading={false}
+            />
           </span>
+
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold uppercase tracking-tight leading-none mb-4 drop-shadow-md">
-            Live & Travel
+            <AnimatedWordText
+              text="Live & Travel"
+              delayOffset={0.4}
+              isHeading={true}
+            />
           </h1>
+
           <p className="text-base sm:text-xl font-medium text-white/90 max-w-xl mx-auto">
-            Special offers to suit your plan. Discover hundreds of airlines and hotels at your fingertips.
+            <AnimatedWordText
+              text="Special offers to suit your plan. Discover hundreds of airlines and hotels at your fingertips."
+              delayOffset={0.65}
+              isHeading={false}
+            />
           </p>
         </div>
       </section>
@@ -132,32 +210,42 @@ export default function LandingPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-28 sm:-mt-32 relative z-30 mb-20">
         <div className="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 border border-gray-100">
           
-          {/* Tabs: Flights / Stays */}
+          {/* Tabs: Flights / Stays with Apple Spring Indicator */}
           <div className="flex items-center gap-8 pb-6 border-b border-gray-100">
             <button
               type="button"
               onClick={() => setActiveTab('flights')}
-              className={`flex items-center gap-2.5 pb-2 text-sm font-bold transition-all relative cursor-pointer ${
-                activeTab === 'flights'
-                  ? 'text-[#112211] after:content-[""] after:absolute after:bottom-[-25px] after:left-0 after:right-0 after:h-[4px] after:bg-[#8DD3BB] after:rounded-full'
-                  : 'text-gray-400 hover:text-[#112211]'
+              className={`flex items-center gap-2.5 pb-2 text-sm font-bold transition-colors relative cursor-pointer ${
+                activeTab === 'flights' ? 'text-[#112211]' : 'text-gray-400 hover:text-[#112211]'
               }`}
             >
               <Plane className="w-5 h-5 transform -rotate-45" />
               <span>Flights</span>
+              {activeTab === 'flights' && (
+                <motion.div
+                  layoutId="landingActiveTabIndicator"
+                  className="absolute -bottom-6 left-0 right-0 h-1 bg-[#8DD3BB] rounded-full"
+                  transition={{ type: "spring", stiffness: 450, damping: 35 }}
+                />
+              )}
             </button>
 
             <button
               type="button"
               onClick={() => setActiveTab('stays')}
-              className={`flex items-center gap-2.5 pb-2 text-sm font-bold transition-all relative cursor-pointer ${
-                activeTab === 'stays'
-                  ? 'text-[#112211] after:content-[""] after:absolute after:bottom-[-25px] after:left-0 after:right-0 after:h-[4px] after:bg-[#8DD3BB] after:rounded-full'
-                  : 'text-gray-400 hover:text-[#112211]'
+              className={`flex items-center gap-2.5 pb-2 text-sm font-bold transition-colors relative cursor-pointer ${
+                activeTab === 'stays' ? 'text-[#112211]' : 'text-gray-400 hover:text-[#112211]'
               }`}
             >
               <Bed className="w-5 h-5" />
               <span>Stays</span>
+              {activeTab === 'stays' && (
+                <motion.div
+                  layoutId="landingActiveTabIndicator"
+                  className="absolute -bottom-6 left-0 right-0 h-1 bg-[#8DD3BB] rounded-full"
+                  transition={{ type: "spring", stiffness: 450, damping: 35 }}
+                />
+              )}
             </button>
           </div>
 
@@ -168,23 +256,25 @@ export default function LandingPage() {
               {/* From - To with Swap Button */}
               <div className="md:col-span-4 relative flex items-center">
                 <div className="w-full grid grid-cols-2 gap-2">
-                  <Input
+                  <CityAutocomplete
                     label="From"
                     value={fromCity}
-                    onChange={(e) => setFromCity(e.target.value)}
+                    onChange={(val) => setFromCity(val)}
                     icon={<Plane className="w-4 h-4 text-gray-400" />}
+                    placeholder="e.g. Lahore (LHE)"
                   />
-                  <Input
+                  <CityAutocomplete
                     label="To"
                     value={toCity}
-                    onChange={(e) => setToCity(e.target.value)}
+                    onChange={(val) => setToCity(val)}
                     icon={<Plane className="w-4 h-4 text-gray-400 transform rotate-90" />}
+                    placeholder="e.g. Karachi (KHI)"
                   />
                 </div>
                 <button
                   type="button"
                   onClick={handleSwap}
-                  className="hidden md:flex absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white border border-gray-300 shadow-xs items-center justify-center text-gray-500 hover:text-[#112211] hover:border-[#8DD3BB] transition-colors z-10 cursor-pointer"
+                  className="hidden md:flex absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white border border-gray-300 shadow-xs items-center justify-center text-gray-500 hover:text-[#112211] hover:border-[#8DD3BB] transition-colors z-20 cursor-pointer"
                   title="Swap destinations"
                 >
                   <ArrowRightLeft className="w-3.5 h-3.5" />
@@ -272,13 +362,15 @@ export default function LandingPage() {
           </Button>
         </div>
 
-        {/* 9 Destination Grid */}
+        {/* 9 Destination Grid with Smooth Apple 3D Elevation */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {destinations.map((item, idx) => (
-            <div
+            <motion.div
               key={idx}
+              whileHover={{ y: -6, scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
               onClick={() => navigate('/flights/search')}
-              className="bg-white rounded-2xl p-4 flex items-center gap-4 shadow-xs hover:shadow-md border border-gray-100 transition-all duration-200 cursor-pointer group"
+              className="bg-white rounded-2xl p-4 flex items-center gap-4 shadow-xs hover:shadow-xl border border-gray-100 transition-shadow duration-300 cursor-pointer group"
             >
               <div className="w-20 h-20 rounded-xl overflow-hidden shrink-0 bg-gray-100">
                 <img
@@ -301,7 +393,7 @@ export default function LandingPage() {
                   Book now <ArrowRight className="w-3 h-3" />
                 </span>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>
@@ -385,8 +477,10 @@ export default function LandingPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {reviews.map((rev, idx) => (
-            <div
+            <motion.div
               key={idx}
+              whileHover={{ y: -4 }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
               className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md transition-shadow"
             >
               <div>
@@ -421,7 +515,7 @@ export default function LandingPage() {
                   <img src={rev.avatar} alt={rev.name} className="w-full h-full object-cover" />
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>

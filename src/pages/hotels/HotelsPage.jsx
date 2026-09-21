@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Layout from "../../components/layout/Layout";
 import { motion, AnimatePresence } from "motion/react";
+import { useFavorites } from "../../context/FavoritesContext";
 
 import hotel_hero from "../../assets/images/hotels/hotel-hero.png";
 import hotel1 from "../../assets/images/hotels/hotel1.png";
@@ -131,7 +132,7 @@ export default function HotelsPage() {
 
     const [selectedHotel, setSelectedHotel] = useState(null);
 
-    const [favorites, setFavorites] = useState([]);
+    const { isFavoriteHotel, toggleFavoriteHotel } = useFavorites();
 
     const [showPayment, setShowPayment] = useState(false);
 
@@ -155,12 +156,11 @@ export default function HotelsPage() {
     ===================================================== */
 
     const toggleFavorite = (id) => {
-
-        setFavorites((prev) =>
-            prev.includes(id)
-                ? prev.filter((item) => item !== id)
-                : [...prev, id]
-        );
+        const allH = [...hotels, ...natureHotels];
+        const target = allH.find((h) => h.id === id);
+        if (target) {
+            toggleFavoriteHotel(target);
+        }
     };
 
 
@@ -203,14 +203,14 @@ export default function HotelsPage() {
         ...hotels,
         ...natureHotels,
     ].filter((hotel) =>
-        favorites.includes(hotel.id)
+        isFavoriteHotel(hotel.id)
     );
 
 
     return (
         <Layout>
 
-            <div className="w-full bg-white text-[#112211]">
+            <div className="w-full bg-white dark:bg-[#0B130E] text-[#112211] dark:text-[#F3F4F6] transition-colors duration-300">
 
 
                 {/* =====================================================
@@ -773,7 +773,7 @@ export default function HotelsPage() {
                                         "
                                     >
                                         <HeartIcon
-                                            active={favorites.includes(
+                                            active={isFavoriteHotel(
                                                 hotel.id
                                             )}
                                         />
@@ -1730,12 +1730,14 @@ export default function HotelsPage() {
 
                                         <input
                                             required
+                                            inputMode="numeric"
+                                            maxLength={19}
                                             value={cardNumber}
-                                            onChange={(e) =>
-                                                setCardNumber(
-                                                    e.target.value
-                                                )
-                                            }
+                                            onChange={(e) => {
+                                                const digits = e.target.value.replace(/\D/g, '').slice(0, 16);
+                                                const formatted = digits.replace(/(\d{4})(?=\d)/g, '$1 ');
+                                                setCardNumber(formatted);
+                                            }}
                                             placeholder="4321 4321 4321 4321"
                                             className="
                                                 w-full
@@ -1772,12 +1774,16 @@ export default function HotelsPage() {
 
                                             <input
                                                 required
+                                                inputMode="numeric"
+                                                maxLength={5}
                                                 value={expiry}
-                                                onChange={(e) =>
-                                                    setExpiry(
-                                                        e.target.value
-                                                    )
-                                                }
+                                                onChange={(e) => {
+                                                    let val = e.target.value.replace(/\D/g, '').slice(0, 4);
+                                                    if (val.length >= 3) {
+                                                        val = val.slice(0, 2) + '/' + val.slice(2);
+                                                    }
+                                                    setExpiry(val);
+                                                }}
                                                 placeholder="02/27"
                                                 className="
                                                     w-full
@@ -1807,10 +1813,13 @@ export default function HotelsPage() {
 
                                             <input
                                                 required
+                                                type="password"
+                                                inputMode="numeric"
+                                                maxLength={4}
                                                 value={cvv}
                                                 onChange={(e) =>
                                                     setCvv(
-                                                        e.target.value
+                                                        e.target.value.replace(/\D/g, '').slice(0, 4)
                                                     )
                                                 }
                                                 placeholder="123"
@@ -1850,7 +1859,7 @@ export default function HotelsPage() {
                                                     e.target.value
                                                 )
                                             }
-                                            placeholder="John Doe"
+                                            placeholder="Cozy Bit"
                                             className="
                                                 w-full
                                                 h-[40px]
@@ -1975,6 +1984,12 @@ export default function HotelsPage() {
 
                             <input
                                 placeholder="Card Number"
+                                inputMode="numeric"
+                                maxLength={19}
+                                onInput={(e) => {
+                                    const digits = e.target.value.replace(/\D/g, '').slice(0, 16);
+                                    e.target.value = digits.replace(/(\d{4})(?=\d)/g, '$1 ');
+                                }}
                                 className="
                                     w-full
                                     h-[40px]
@@ -1997,7 +2012,16 @@ export default function HotelsPage() {
                             ">
 
                                 <input
-                                    placeholder="Expiry Date"
+                                    placeholder="Expiry Date (MM/YY)"
+                                    inputMode="numeric"
+                                    maxLength={5}
+                                    onInput={(e) => {
+                                        let val = e.target.value.replace(/\D/g, '').slice(0, 4);
+                                        if (val.length >= 3) {
+                                            val = val.slice(0, 2) + '/' + val.slice(2);
+                                        }
+                                        e.target.value = val;
+                                    }}
                                     className="
                                         h-[40px]
                                         border
@@ -2011,6 +2035,12 @@ export default function HotelsPage() {
 
                                 <input
                                     placeholder="CVC"
+                                    type="password"
+                                    inputMode="numeric"
+                                    maxLength={4}
+                                    onInput={(e) => {
+                                        e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
+                                    }}
                                     className="
                                         h-[40px]
                                         border

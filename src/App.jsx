@@ -44,8 +44,10 @@ export default function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
 
-        {/* Tolibov Route (CSS Modules) */}
+        {/* Tolibov Route (CSS Modules) & Favourites */}
         <Route path="/account" element={<AccountPage />} />
+        <Route path="/favourites" element={<AccountPage defaultTab="favourites" />} />
+        <Route path="/favorites" element={<AccountPage defaultTab="favourites" />} />
 
         {/* Fallback to Home */}
         <Route path="*" element={<LandingPage />} />

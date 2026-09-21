@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { motion } from 'motion/react';
 import Layout from '../../components/layout/Layout';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
+import CityAutocomplete from '../../components/ui/CityAutocomplete';
 import Select from '../../components/ui/Select';
 import {
   Plane,
@@ -16,8 +18,7 @@ import {
 } from 'lucide-react';
 
 // Assets
-import flightHero from '../../assets/images/flights/flight-hero.png';
-import flightBg1 from '../../assets/images/flights/flight-bg1.png';
+import flightBg from '../../assets/images/flights/flight-bg.png';
 import worldMap from '../../assets/images/flights/world-map.svg';
 import fall1 from '../../assets/images/flights/fall1.png';
 import fall2 from '../../assets/images/flights/fall2.png';
@@ -41,7 +42,16 @@ export default function FlightSearchHome() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    navigate('/flights/search');
+    navigate('/flights/search', {
+      state: {
+        fromCity,
+        toCity,
+        tripType,
+        departDate,
+        returnDate,
+        passengers,
+      },
+    });
   };
 
   const mapDestinations = [
@@ -63,15 +73,23 @@ export default function FlightSearchHome() {
       {/* ================= FLIGHT HERO ================= */}
       <section className="relative min-h-[520px] sm:min-h-[580px] flex items-center justify-center pt-24 pb-32 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 z-0 overflow-hidden">
-          <img
-            src={flightHero}
+          <motion.img
+            initial={{ scale: 1.10 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 2.8, ease: [0.16, 1, 0.3, 1] }}
+            src={flightBg}
             alt="Find Flights Hero"
             className="w-full h-full object-cover object-center"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/60" />
         </div>
 
-        <div className="relative z-10 text-white max-w-4xl mx-auto text-center sm:text-left w-full">
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="relative z-10 text-white max-w-4xl mx-auto text-center sm:text-left w-full"
+        >
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 drop-shadow-md">
             Make your travel wishlist, <br />
             we’ll do the rest
@@ -79,11 +97,16 @@ export default function FlightSearchHome() {
           <p className="text-base sm:text-xl font-medium text-white/90 max-w-lg">
             Special offers to suit your plan. Discover flight deals from top airlines worldwide.
           </p>
-        </div>
+        </motion.div>
       </section>
 
       {/* ================= SEARCH WIDGET ================= */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-24 relative z-30 mb-16">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-24 relative z-30 mb-16"
+      >
         <div className="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 border border-gray-100">
           <div className="flex items-center justify-between pb-4 border-b border-gray-100 mb-6">
             <h2 className="text-lg font-bold text-[#112211] flex items-center gap-2">
@@ -97,27 +120,32 @@ export default function FlightSearchHome() {
               {/* From - To with Swap Button */}
               <div className="md:col-span-4 relative flex items-center">
                 <div className="w-full grid grid-cols-2 gap-2">
-                  <Input
+                  <CityAutocomplete
                     label="From"
                     value={fromCity}
-                    onChange={(e) => setFromCity(e.target.value)}
+                    onChange={(val) => setFromCity(val)}
                     icon={<Plane className="w-4 h-4 text-gray-400" />}
+                    placeholder="e.g. Lahore (LHE)"
                   />
-                  <Input
+                  <CityAutocomplete
                     label="To"
                     value={toCity}
-                    onChange={(e) => setToCity(e.target.value)}
+                    onChange={(val) => setToCity(val)}
                     icon={<Plane className="w-4 h-4 text-gray-400 transform rotate-90" />}
+                    placeholder="e.g. Karachi (KHI)"
                   />
                 </div>
-                <button
+                <motion.button
                   type="button"
                   onClick={handleSwap}
-                  className="hidden md:flex absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white border border-gray-300 shadow-xs items-center justify-center text-gray-500 hover:text-[#112211] hover:border-[#8DD3BB] transition-colors z-10 cursor-pointer"
+                  whileHover={{ scale: 1.15 }}
+                  whileTap={{ rotate: 180, scale: 0.9 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                  className="hidden md:flex absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white border border-gray-300 shadow-xs items-center justify-center text-gray-500 hover:text-[#112211] hover:border-[#8DD3BB] transition-colors z-20 cursor-pointer"
                   title="Swap destinations"
                 >
                   <ArrowRightLeft className="w-3.5 h-3.5" />
-                </button>
+                </motion.button>
               </div>
 
               {/* Trip Type */}
@@ -177,7 +205,7 @@ export default function FlightSearchHome() {
             </div>
           </form>
         </div>
-      </div>
+      </motion.div>
 
       {/* ================= LET'S GO PLACES TOGETHER (WORLD MAP) ================= */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -201,13 +229,17 @@ export default function FlightSearchHome() {
         </div>
 
         {/* Map Vector Graphic Card */}
-        <div className="relative rounded-3xl overflow-hidden shadow-lg border border-gray-100 bg-[#EAF7F2] p-8 min-h-[380px] flex items-center justify-center">
+        <motion.div
+          whileHover={{ scale: 1.01 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+          className="relative rounded-3xl overflow-hidden shadow-lg border border-gray-100 bg-[#EAF7F2] p-8 min-h-[380px] flex items-center justify-center group"
+        >
           <img
             src={worldMap}
             alt="World Map Routes"
-            className="absolute inset-0 w-full h-full object-cover opacity-90"
+            className="absolute inset-0 w-full h-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-105"
           />
-          <div className="relative z-10 text-center max-w-lg bg-white/90 backdrop-blur-md p-6 sm:p-8 rounded-2xl shadow-xl">
+          <div className="relative z-10 text-center max-w-lg bg-white/90 backdrop-blur-md p-6 sm:p-8 rounded-2xl shadow-xl transition-all duration-300 group-hover:shadow-2xl">
             <span className="text-xs uppercase font-extrabold text-[#00845B] tracking-wider mb-2 block">
               Global Flight Network
             </span>
@@ -226,7 +258,7 @@ export default function FlightSearchHome() {
               Search Route Deals
             </Button>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* ================= FALL INTO TRAVEL ================= */}
@@ -253,16 +285,18 @@ export default function FlightSearchHome() {
         {/* 4 Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {fallPlaces.map((place, idx) => (
-            <div
+            <motion.div
               key={idx}
-              className="relative rounded-2xl overflow-hidden shadow-md h-[400px] group flex flex-col justify-end p-5 text-white"
+              whileHover={{ y: -8, scale: 1.02 }}
+              transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+              className="relative rounded-2xl overflow-hidden shadow-md h-[400px] group flex flex-col justify-end p-5 text-white cursor-pointer"
             >
               <img
                 src={place.img}
                 alt={place.title}
-                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent group-hover:from-black/90 transition-colors duration-300" />
 
               <div className="relative z-10 flex flex-col gap-2">
                 <div className="flex items-center justify-between">
@@ -284,16 +318,20 @@ export default function FlightSearchHome() {
                   Book Flight
                 </Button>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
         {/* Featured Big Banner: Backpacking Sri Lanka */}
-        <div className="relative rounded-3xl overflow-hidden shadow-xl bg-gray-900 text-white min-h-[420px] flex items-center p-8 sm:p-12 lg:p-16">
+        <motion.div
+          whileHover={{ scale: 1.008 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+          className="relative rounded-3xl overflow-hidden shadow-xl bg-gray-900 text-white min-h-[420px] flex items-center p-8 sm:p-12 lg:p-16 group"
+        >
           <img
-            src={flightBg1}
+            src={flightBg}
             alt="Backpacking Sri Lanka"
-            className="absolute inset-0 w-full h-full object-cover opacity-60"
+            className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-1000 ease-out"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent" />
 
@@ -323,7 +361,7 @@ export default function FlightSearchHome() {
               Book Flight Now
             </Button>
           </div>
-        </div>
+        </motion.div>
       </section>
     </Layout>
   );

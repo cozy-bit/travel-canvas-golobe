@@ -14,8 +14,8 @@ export default function Checkbox({
   return (
     <label
       htmlFor={inputId}
-      className={`inline-flex items-center gap-2.5 cursor-pointer select-none text-sm text-[#112211] font-medium ${
-        disabled ? 'opacity-50 cursor-not-allowed' : 'hover:text-black'
+      className={`inline-flex items-center gap-2.5 cursor-pointer select-none text-sm text-[#112211] dark:text-[#F3F4F6] font-medium ${
+        disabled ? 'opacity-50 cursor-not-allowed' : 'hover:text-black dark:hover:text-white'
       } ${className}`}
     >
       <input
@@ -24,7 +24,7 @@ export default function Checkbox({
         checked={checked}
         onChange={onChange}
         disabled={disabled}
-        className="w-4 h-4 rounded-xs border-gray-300 text-[#8DD3BB] accent-[#8DD3BB] focus:ring-[#8DD3BB] cursor-pointer"
+        className="w-4 h-4 rounded-xs border-gray-300 dark:border-gray-600 bg-white dark:bg-[#141F1A] text-[#8DD3BB] accent-[#8DD3BB] focus:ring-[#8DD3BB] cursor-pointer"
         {...props}
       />
       {label && <span>{label}</span>}

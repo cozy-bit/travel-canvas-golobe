@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
 
 import slider_photo1 from "../../assets/images/auth/auth-side.png";
+import monkeyAvatarImg from "../../assets/images/account/monkey-1.png";
+import ThemeToggle from "../../components/ui/ThemeToggle";
 
 // ==================== LOGO ====================
 
@@ -10,18 +12,17 @@ function Logo() {
   return (
     <Link to="/" className="flex items-center gap-2 w-fit">
       <div className="mb-9 select-none">
-
-<div className="
-    text-[21px]
-    sm:text-[22px]
-    font-semibold
-    tracking-[-1.5px]
-    text-[#1C261F]
-">
-    g<span className="text-[#72CBB2]">l</span>obe
-</div>
-
-</div>
+        <div className="
+            text-[21px]
+            sm:text-[22px]
+            font-semibold
+            tracking-[-1.5px]
+            text-[#1C261F]
+            dark:text-white
+        ">
+            g<span className="text-[#72CBB2]">l</span>obe
+        </div>
+      </div>
     </Link>
   );
 }
@@ -35,9 +36,10 @@ function Input({
   placeholder,
   value,
   onChange,
+  error,
 }) {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-1.5">
       <label
         htmlFor={name}
         className="text-sm font-medium text-[#374151]"
@@ -52,21 +54,29 @@ function Input({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="
+        className={`
           w-full
           h-[48px]
           px-4
           rounded-[8px]
-          border border-[#D1D5DB]
+          border
           bg-white
           text-[#1F2937]
           outline-none
           transition
-          focus:border-[#3F7D58]
-          focus:ring-2
-          focus:ring-[#3F7D58]/10
-        "
+          ${
+            error
+              ? "border-red-500 ring-2 ring-red-500/20"
+              : "border-[#D1D5DB] focus:border-[#3F7D58] focus:ring-2 focus:ring-[#3F7D58]/10"
+          }
+        `}
       />
+
+      {error && (
+        <span className="text-xs text-red-500 font-medium">
+          {error}
+        </span>
+      )}
     </div>
   );
 }
@@ -79,11 +89,12 @@ function PasswordInput({
   placeholder,
   value,
   onChange,
+  error,
 }) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-1.5">
       <label
         htmlFor={name}
         className="text-sm font-medium text-[#374151]"
@@ -99,21 +110,23 @@ function PasswordInput({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          className="
+          className={`
             w-full
             h-[48px]
             px-4
             pr-12
             rounded-[8px]
-            border border-[#D1D5DB]
+            border
             bg-white
             text-[#1F2937]
             outline-none
             transition
-            focus:border-[#3F7D58]
-            focus:ring-2
-            focus:ring-[#3F7D58]/10
-          "
+            ${
+              error
+                ? "border-red-500 ring-2 ring-red-500/20"
+                : "border-[#D1D5DB] focus:border-[#3F7D58] focus:ring-2 focus:ring-[#3F7D58]/10"
+            }
+          `}
         />
 
         <button
@@ -132,6 +145,7 @@ function PasswordInput({
             text-[#6B7280]
             hover:text-[#374151]
             transition
+            cursor-pointer
           "
           aria-label={
             showPassword ? "Hide password" : "Show password"
@@ -151,7 +165,6 @@ function PasswordInput({
                 strokeWidth="1.7"
                 strokeLinecap="round"
               />
-
               <path
                 d="M10.58 10.58C10.21 10.95 10 11.46 10 12C10 13.1 10.9 14 12 14C12.54 14 13.05 13.79 13.42 13.42"
                 stroke="currentColor"
@@ -159,7 +172,6 @@ function PasswordInput({
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
-
               <path
                 d="M9.88 5.09C10.56 4.9 11.27 4.8 12 4.8C17 4.8 20.5 9.2 21.5 12C21.1 13.1 20.2 14.7 18.75 16.1"
                 stroke="currentColor"
@@ -167,7 +179,6 @@ function PasswordInput({
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
-
               <path
                 d="M6.61 6.61C4.7 7.88 3.35 9.85 2.5 12C3.5 14.8 7 19.2 12 19.2C13.74 19.2 15.32 18.7 16.65 17.85"
                 stroke="currentColor"
@@ -191,7 +202,6 @@ function PasswordInput({
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
-
               <circle
                 cx="12"
                 cy="12"
@@ -203,17 +213,24 @@ function PasswordInput({
           )}
         </button>
       </div>
+
+      {error && (
+        <span className="text-xs text-red-500 font-medium">
+          {error}
+        </span>
+      )}
     </div>
   );
 }
 
 // ==================== SOCIAL BUTTONS ====================
 
-function SocialButtons() {
+function SocialButtons({ onSocialLogin }) {
   return (
     <div className="grid grid-cols-2 gap-3">
       <button
         type="button"
+        onClick={() => onSocialLogin && onSocialLogin("Google")}
         className="
           h-[46px]
           rounded-[8px]
@@ -222,15 +239,16 @@ function SocialButtons() {
           flex items-center justify-center gap-2
           text-sm font-medium
           hover:bg-gray-50
-          transition
+          transition cursor-pointer
         "
       >
-        <span className="font-bold">G</span>
+        <span className="font-bold text-[#4285F4]">G</span>
         Google
       </button>
 
       <button
         type="button"
+        onClick={() => onSocialLogin && onSocialLogin("Facebook")}
         className="
           h-[46px]
           rounded-[8px]
@@ -239,10 +257,10 @@ function SocialButtons() {
           flex items-center justify-center gap-2
           text-sm font-medium
           hover:bg-gray-50
-          transition
+          transition cursor-pointer
         "
       >
-        <span className="font-bold">f</span>
+        <span className="font-bold text-[#1877F2]">f</span>
         Facebook
       </button>
     </div>
@@ -255,11 +273,7 @@ function Divider() {
   return (
     <div className="flex items-center gap-4 my-5">
       <div className="flex-1 h-px bg-[#E5E7EB]" />
-
-      <span className="text-sm text-[#9CA3AF]">
-        or
-      </span>
-
+      <span className="text-sm text-[#9CA3AF]">or</span>
       <div className="flex-1 h-px bg-[#E5E7EB]" />
     </div>
   );
@@ -274,6 +288,7 @@ function SignUpScreen({
   setAccepted,
   handleChange,
   handleSubmit,
+  onSocialLogin,
 }) {
   return (
     <motion.div
@@ -296,7 +311,7 @@ function SignUpScreen({
         </p>
       </div>
 
-      <SocialButtons />
+      <SocialButtons onSocialLogin={onSocialLogin} />
 
       <Divider />
 
@@ -311,6 +326,7 @@ function SignUpScreen({
             placeholder="Enter your first name"
             value={form.firstName}
             onChange={handleChange}
+            error={errors.firstName}
           />
 
           <Input
@@ -319,6 +335,7 @@ function SignUpScreen({
             placeholder="Enter your last name"
             value={form.lastName}
             onChange={handleChange}
+            error={errors.lastName}
           />
         </div>
 
@@ -329,23 +346,26 @@ function SignUpScreen({
           placeholder="Enter your email"
           value={form.email}
           onChange={handleChange}
+          error={errors.email}
         />
 
         <Input
           label="Phone"
           name="phone"
           type="tel"
-          placeholder="Enter your phone number"
+          placeholder="+1 000-000-0000"
           value={form.phone}
           onChange={handleChange}
+          error={errors.phone}
         />
 
         <PasswordInput
           label="Password"
           name="password"
-          placeholder="Create a password"
+          placeholder="Create a password (min. 6 characters)"
           value={form.password}
           onChange={handleChange}
+          error={errors.password}
         />
 
         <PasswordInput
@@ -354,45 +374,48 @@ function SignUpScreen({
           placeholder="Confirm your password"
           value={form.confirmPassword}
           onChange={handleChange}
+          error={errors.confirmPassword}
         />
 
         {errors.form && (
-          <p className="text-sm text-red-500">
+          <p className="text-sm text-red-500 font-medium">
             {errors.form}
           </p>
         )}
 
-        <label className="flex items-start gap-3 cursor-pointer mt-1">
-          <input
-            type="checkbox"
-            checked={accepted}
-            onChange={(e) => setAccepted(e.target.checked)}
-            className="mt-1 accent-[#3F7D58]"
-          />
+        <div>
+          <label className="flex items-start gap-3 cursor-pointer mt-1">
+            <input
+              type="checkbox"
+              checked={accepted}
+              onChange={(e) => setAccepted(e.target.checked)}
+              className="mt-1 accent-[#3F7D58]"
+            />
 
-          <span className="text-sm text-[#6B7280] leading-5">
-            I agree to the{" "}
-            <Link
-              to="/terms"
-              className="text-[#3F7D58] hover:underline"
-            >
-              Terms & Conditions
-            </Link>{" "}
-            and{" "}
-            <Link
-              to="/privacy"
-              className="text-[#3F7D58] hover:underline"
-            >
-              Privacy Policy
-            </Link>
-          </span>
-        </label>
+            <span className="text-sm text-[#6B7280] leading-5">
+              I agree to the{" "}
+              <Link
+                to="/terms"
+                className="text-[#3F7D58] hover:underline"
+              >
+                Terms & Conditions
+              </Link>{" "}
+              and{" "}
+              <Link
+                to="/privacy"
+                className="text-[#3F7D58] hover:underline"
+              >
+                Privacy Policy
+              </Link>
+            </span>
+          </label>
 
-        {errors.terms && (
-          <p className="text-sm text-red-500">
-            {errors.terms}
-          </p>
-        )}
+          {errors.terms && (
+            <p className="text-xs text-red-500 font-medium mt-1">
+              {errors.terms}
+            </p>
+          )}
+        </div>
 
         <button
           type="submit"
@@ -405,6 +428,7 @@ function SignUpScreen({
             font-semibold
             hover:bg-[#356b4b]
             transition
+            cursor-pointer
             mt-2
           "
         >
@@ -431,6 +455,7 @@ function VerifyScreen({
   verificationCode,
   setVerificationCode,
   handleVerify,
+  verifyError,
   timer,
   handleResend,
 }) {
@@ -456,9 +481,11 @@ function VerifyScreen({
         </p>
       </div>
 
+
+
       <form
         onSubmit={handleVerify}
-        className="mt-8 flex flex-col gap-5"
+        className="mt-6 flex flex-col gap-5"
       >
         <div className="flex flex-col gap-2">
           <label
@@ -479,7 +506,7 @@ function VerifyScreen({
                 e.target.value.replace(/\D/g, "")
               )
             }
-            placeholder="000000"
+            placeholder="123456"
             className="
               w-full
               h-[52px]
@@ -495,6 +522,12 @@ function VerifyScreen({
               focus:ring-[#3F7D58]/10
             "
           />
+
+          {verifyError && (
+            <p className="text-xs text-red-500 font-medium mt-1">
+              {verifyError}
+            </p>
+          )}
         </div>
 
         <button
@@ -508,6 +541,7 @@ function VerifyScreen({
             font-semibold
             hover:bg-[#356b4b]
             transition
+            cursor-pointer
           "
         >
           Verify account
@@ -526,7 +560,7 @@ function VerifyScreen({
           <button
             type="button"
             onClick={handleResend}
-            className="text-[#3F7D58] font-semibold hover:underline"
+            className="text-[#3F7D58] font-semibold hover:underline cursor-pointer"
           >
             Resend code
           </button>
@@ -563,9 +597,8 @@ export default function SignUpPage() {
 
   const [errors, setErrors] = useState({});
   const [accepted, setAccepted] = useState(false);
-
   const [verificationCode, setVerificationCode] = useState("");
-
+  const [verifyError, setVerifyError] = useState("");
   const [timer, setTimer] = useState(30);
 
   // ==================== INPUT CHANGE ====================
@@ -573,9 +606,15 @@ export default function SignUpPage() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
+    let cleanValue = value;
+    if (name === "phone") {
+      // Only allow digits and common phone formatting symbols (+, spaces, -, (, ))
+      cleanValue = value.replace(/[^\d+()\s-]/g, "");
+    }
+
     setForm((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: cleanValue,
     }));
 
     setErrors((prev) => ({
@@ -585,7 +624,26 @@ export default function SignUpPage() {
     }));
   };
 
-  // ==================== SIGN UP ====================
+  // ==================== SOCIAL LOGIN ====================
+
+  const handleSocialLogin = (provider) => {
+    const socialUser = {
+      name: `Cozy Bit (${provider})`,
+      firstName: "Cozy",
+      lastName: "Bit",
+      email: `cozybit.${provider.toLowerCase()}@gmail.com`,
+      phone: "+1 000-000-0000",
+      password: "password123",
+      avatar: monkeyAvatarImg,
+    };
+
+    localStorage.setItem("globeCurrentUser", JSON.stringify(socialUser));
+    localStorage.setItem("globeLoggedIn", "true");
+    window.dispatchEvent(new Event("authChange"));
+    navigate("/");
+  };
+
+  // ==================== SIGN UP SUBMIT ====================
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -617,16 +675,13 @@ export default function SignUpPage() {
     }
 
     if (!form.confirmPassword) {
-      newErrors.confirmPassword =
-        "Please confirm your password";
+      newErrors.confirmPassword = "Please confirm your password";
     } else if (form.password !== form.confirmPassword) {
-      newErrors.confirmPassword =
-        "Passwords do not match";
+      newErrors.confirmPassword = "Passwords do not match";
     }
 
     if (!accepted) {
-      newErrors.terms =
-        "You must accept the Terms & Conditions";
+      newErrors.terms = "You must accept the Terms & Conditions";
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -642,63 +697,72 @@ export default function SignUpPage() {
       password: form.password,
     };
 
-    localStorage.setItem(
-      "globePendingUser",
-      JSON.stringify(pendingUser)
-    );
-
-    // Demo verification code
-    localStorage.setItem(
-      "globeVerificationCode",
-      "123456"
-    );
+    localStorage.setItem("globePendingUser", JSON.stringify(pendingUser));
+    localStorage.setItem("globeVerificationCode", "123456");
 
     setVerificationCode("");
+    setVerifyError("");
     setTimer(30);
     setScreen("verify");
   };
 
-  // ==================== VERIFY ====================
+  // ==================== VERIFY SUBMIT ====================
 
   const handleVerify = (e) => {
     e.preventDefault();
 
-    const savedCode =
-      localStorage.getItem("globeVerificationCode");
+    const savedCode = localStorage.getItem("globeVerificationCode") || "123456";
 
-    if (verificationCode === savedCode) {
-      const pendingUser =
-        JSON.parse(
-          localStorage.getItem("globePendingUser")
-        );
-
-      localStorage.setItem(
-        "globeUser",
-        JSON.stringify(pendingUser)
+    if (verificationCode === savedCode || verificationCode === "123456") {
+      const pendingUser = JSON.parse(
+        localStorage.getItem("globePendingUser") || "{}"
       );
+
+      const fullName = `${pendingUser.firstName || ""} ${pendingUser.lastName || ""}`.trim() || "Cozy Bit";
+      const userObj = {
+        name: fullName,
+        firstName: pendingUser.firstName || "Cozy",
+        lastName: pendingUser.lastName || "Bit",
+        email: pendingUser.email || "cozybit@gmail.com",
+        phone: pendingUser.phone || "+1 000-000-0000",
+        password: pendingUser.password || "password123",
+        avatar: monkeyAvatarImg,
+      };
+
+      // Save into users list
+      const users = JSON.parse(localStorage.getItem("globeUsers") || "[]");
+      const idx = users.findIndex((u) => u.email === userObj.email);
+      if (idx >= 0) {
+        users[idx] = userObj;
+      } else {
+        users.push(userObj);
+      }
+      localStorage.setItem("globeUsers", JSON.stringify(users));
+
+      // Set logged in session
+      localStorage.setItem("globeUser", JSON.stringify(userObj));
+      localStorage.setItem("globeCurrentUser", JSON.stringify(userObj));
+      localStorage.setItem("globeLoggedIn", "true");
 
       localStorage.removeItem("globePendingUser");
       localStorage.removeItem("globeVerificationCode");
 
-      alert("Account created successfully!");
+      // Notify header and app
+      window.dispatchEvent(new Event("authChange"));
 
-      navigate("/login");
+      navigate("/");
     } else {
-      alert("Invalid verification code.");
+      setVerifyError("Invalid verification code. Enter 123456 to test.");
     }
   };
 
   // ==================== RESEND CODE ====================
 
   const handleResend = () => {
-    localStorage.setItem(
-      "globeVerificationCode",
-      "123456"
-    );
-
+    localStorage.setItem("globeVerificationCode", "123456");
     setTimer(30);
-
-    alert("New verification code sent.");
+    setVerifyError("");
+    setVerificationCode("123456");
   };
 
   // ==================== VERIFICATION TIMER ====================
@@ -717,10 +781,14 @@ export default function SignUpPage() {
   // ==================== RENDER ====================
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-[#0B130E] text-[#112211] dark:text-[#F3F4F6] relative transition-colors duration-300">
+      {/* Quick floating theme toggle */}
+      <div className="fixed top-4 right-4 z-50">
+        <ThemeToggle />
+      </div>
+
       <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
         {/* LEFT SIDE */}
-
         <div className="flex items-center justify-center px-5 py-8 sm:px-8 lg:px-12 xl:px-20">
           <div className="w-full max-w-[520px]">
             <AnimatePresence mode="wait">
@@ -733,6 +801,7 @@ export default function SignUpPage() {
                   setAccepted={setAccepted}
                   handleChange={handleChange}
                   handleSubmit={handleSubmit}
+                  onSocialLogin={handleSocialLogin}
                 />
               ) : (
                 <VerifyScreen
@@ -740,6 +809,7 @@ export default function SignUpPage() {
                   verificationCode={verificationCode}
                   setVerificationCode={setVerificationCode}
                   handleVerify={handleVerify}
+                  verifyError={verifyError}
                   timer={timer}
                   handleResend={handleResend}
                 />
@@ -749,7 +819,6 @@ export default function SignUpPage() {
         </div>
 
         {/* RIGHT SIDE — STATIC IMAGE */}
-
         <div className="hidden lg:block p-5">
           <div className="relative w-full h-full min-h-[600px] overflow-hidden rounded-[12px]">
             <img
@@ -757,7 +826,6 @@ export default function SignUpPage() {
               alt="Travel destination"
               className="absolute inset-0 w-full h-full object-cover"
             />
-
             <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent pointer-events-none" />
           </div>
         </div>

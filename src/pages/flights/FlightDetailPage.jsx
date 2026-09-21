@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { motion } from 'motion/react';
 import Layout from '../../components/layout/Layout';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
@@ -26,12 +27,14 @@ import emiratesShow from '../../assets/images/flights/emirates-show.png';
 export default function FlightDetailPage() {
   const navigate = useNavigate();
   const [passenger, setPassenger] = useState({
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john.doe@gmail.com',
+    firstName: 'Cozy',
+    lastName: 'Bit',
+    email: 'cozybit@gmail.com',
     phone: '+1 234 567 8900',
     dob: '1992-05-14',
   });
+
+  const [isSaved, setIsSaved] = useState(false);
 
   const basePrice = 240;
   const discount = 40;
@@ -45,7 +48,12 @@ export default function FlightDetailPage() {
 
   return (
     <Layout showNewsletter={true}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
+      >
         
         {/* Breadcrumb Navigation */}
         <Breadcrumbs
@@ -81,20 +89,27 @@ export default function FlightDetailPage() {
               <span className="text-3xl font-black text-[#FF8682]">${total}</span>
             </div>
             <div className="flex gap-2">
-              <button
+              <motion.button
                 type="button"
-                className="p-3 rounded-lg border border-gray-200 text-gray-400 hover:text-black hover:border-gray-300 transition-colors"
+                whileTap={{ scale: 0.85 }}
+                className="p-3 rounded-lg border border-gray-200 text-gray-400 hover:text-black hover:border-gray-300 transition-colors cursor-pointer"
                 title="Share flight"
               >
                 <Share2 className="w-4 h-4" />
-              </button>
-              <button
+              </motion.button>
+              <motion.button
                 type="button"
-                className="p-3 rounded-lg border border-gray-200 text-gray-400 hover:text-red-500 hover:border-red-300 transition-colors"
+                whileTap={{ scale: 0.85 }}
+                onClick={() => setIsSaved(!isSaved)}
+                className={`p-3 rounded-lg border transition-colors cursor-pointer ${
+                  isSaved
+                    ? 'border-red-300 bg-red-50 text-red-500'
+                    : 'border-gray-200 text-gray-400 hover:text-red-500 hover:border-red-300'
+                }`}
                 title="Save flight"
               >
-                <Heart className="w-4 h-4" />
-              </button>
+                <Heart className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
+              </motion.button>
             </div>
           </div>
         </div>
@@ -153,25 +168,44 @@ export default function FlightDetailPage() {
                 </span>
               </div>
 
-              {/* Transit Timeline */}
+              {/* Transit Timeline with Animated Flight Radar */}
               <div className="py-6 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-                <div>
-                  <span className="text-2xl font-black text-[#112211]">12:00 pm</span>
+                <div className="relative">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#00845B] relative flex items-center justify-center">
+                      <span className="w-4 h-4 rounded-full bg-[#8DD3BB] animate-ping absolute opacity-75" />
+                    </span>
+                    <span className="text-2xl font-black text-[#112211]">12:00 pm</span>
+                  </div>
                   <p className="text-sm font-semibold text-gray-700 mt-0.5">Newark Liberty Intl (EWR)</p>
                   <p className="text-xs text-gray-400">Terminal B • Gate 14</p>
                 </div>
 
-                <div className="text-center">
-                  <span className="text-xs text-gray-400 font-semibold block mb-1">Non-stop</span>
-                  <div className="relative flex items-center justify-center">
-                    <div className="h-0.5 bg-[#8DD3BB] w-full" />
-                    <Plane className="w-5 h-5 text-[#00845B] absolute bg-white px-0.5 transform rotate-45" />
+                <div className="text-center px-2">
+                  <span className="text-xs text-gray-400 font-semibold block mb-1">Non-stop • 2h 28m</span>
+                  <div className="relative flex items-center justify-center py-2">
+                    <div className="h-0.5 bg-gradient-to-r from-[#8DD3BB] via-emerald-400 to-[#8DD3BB] w-full" />
+                    
+                    {/* Animated Gliding Plane along Flight Corridor */}
+                    <motion.div
+                      animate={{ x: [-20, 20, -20] }}
+                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                      className="absolute bg-white px-1.5 py-0.5 rounded-full shadow-xs border border-gray-100 flex items-center justify-center"
+                    >
+                      <Plane className="w-4 h-4 text-[#00845B] transform rotate-45" />
+                    </motion.div>
                   </div>
-                  <span className="text-xs text-[#00845B] font-bold block mt-1">Direct Flight</span>
+                  <span className="text-xs text-[#00845B] font-bold block mt-1 flex items-center justify-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                    Airborne Transit Active
+                  </span>
                 </div>
 
                 <div className="md:text-right">
-                  <span className="text-2xl font-black text-[#112211]">02:28 pm</span>
+                  <div className="flex items-center gap-2 md:justify-end">
+                    <span className="text-2xl font-black text-[#112211]">02:28 pm</span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#FF8682]" />
+                  </div>
                   <p className="text-sm font-semibold text-gray-700 mt-0.5">Nashville Intl Airport (BNA)</p>
                   <p className="text-xs text-gray-400">Terminal 1 • Gate B22</p>
                 </div>
@@ -224,8 +258,16 @@ export default function FlightDetailPage() {
                   />
                   <Input
                     label="Phone Number"
+                    type="tel"
+                    inputMode="tel"
+                    placeholder="+1 234 567 8900"
                     value={passenger.phone}
-                    onChange={(e) => setPassenger({ ...passenger, phone: e.target.value })}
+                    onChange={(e) =>
+                      setPassenger({
+                        ...passenger,
+                        phone: e.target.value.replace(/[^\d+()\s-]/g, '')
+                      })
+                    }
                     required
                   />
                 </div>
@@ -308,7 +350,7 @@ export default function FlightDetailPage() {
 
         </div>
 
-      </div>
+      </motion.div>
     </Layout>
   );
 }

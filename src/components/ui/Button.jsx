@@ -16,11 +16,11 @@ export default function Button({
 
   const variants = {
     primary: 'bg-[#8DD3BB] text-[#112211] hover:bg-[#7BC6AE] active:bg-[#68b8a0]',
-    secondary: 'border border-[#8DD3BB] text-[#112211] hover:bg-[#8DD3BB]/15',
-    dark: 'bg-[#112211] text-white hover:bg-[#1f381f]',
-    white: 'bg-white text-[#112211] hover:bg-gray-50 border border-gray-200 shadow-xs',
-    outline: 'border border-[#112211] text-[#112211] hover:bg-[#112211] hover:text-white',
-    ghost: 'bg-transparent text-[#112211] hover:bg-black/5',
+    secondary: 'border border-[#8DD3BB] text-[#112211] dark:text-[#8DD3BB] hover:bg-[#8DD3BB]/15',
+    dark: 'bg-[#112211] text-white hover:bg-[#1f381f] dark:bg-[#8DD3BB] dark:text-[#112211] dark:hover:bg-[#7BC6AE]',
+    white: 'bg-white text-[#112211] hover:bg-gray-50 border border-gray-200 shadow-xs dark:bg-[#1A2921] dark:text-[#F3F4F6] dark:border-[#2D3D36] dark:hover:bg-[#24362D]',
+    outline: 'border border-[#112211] text-[#112211] hover:bg-[#112211] hover:text-white dark:border-white/40 dark:text-white dark:hover:bg-white dark:hover:text-[#112211]',
+    ghost: 'bg-transparent text-[#112211] hover:bg-black/5 dark:text-[#F3F4F6] dark:hover:bg-white/10',
     danger: 'bg-[#FF8682] text-white hover:bg-[#ff6f6a]',
   };
 

@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
 
 import slider_photo1 from "../../assets/images/auth/auth-side.png";
+import monkeyAvatarImg from "../../assets/images/account/monkey-1.png";
+import ThemeToggle from "../../components/ui/ThemeToggle";
 
 /* =====================================================
    LOGO — ORIGINAL LOGIN LOGO
@@ -10,7 +12,7 @@ import slider_photo1 from "../../assets/images/auth/auth-side.png";
 
 function Logo() {
     return (
-        <div className="select-none">
+        <Link to="/" className="select-none block w-fit">
             <div
                 className="
                     text-[21px]
@@ -18,11 +20,12 @@ function Logo() {
                     font-semibold
                     tracking-[-1.5px]
                     text-[#1C261F]
+                    dark:text-white
                 "
             >
                 g<span className="text-[#72CBB2]">l</span>obe
             </div>
-        </div>
+        </Link>
     );
 }
 
@@ -127,7 +130,7 @@ function EmailInput({
                 type="email"
                 value={value}
                 onChange={onChange}
-                placeholder="john.doe@gmail.com"
+                placeholder="cozybit@gmail.com"
                 className="
                     w-full
                     h-[46px]
@@ -153,11 +156,12 @@ function EmailInput({
    SOCIAL BUTTONS
 ===================================================== */
 
-function SocialButtons() {
+function SocialButtons({ onSocialLogin }) {
     return (
         <div className="grid grid-cols-3 gap-3 mt-6">
             <button
                 type="button"
+                onClick={() => onSocialLogin && onSocialLogin("Facebook")}
                 className="
                     h-[44px]
                     border
@@ -167,8 +171,9 @@ function SocialButtons() {
                     items-center
                     justify-center
                     hover:bg-[#F7FAF8]
-                    transition
+                    transition cursor-pointer
                 "
+                title="Login with Facebook"
             >
                 <span className="text-[#1877F2] font-bold text-[15px]">
                     f
@@ -177,6 +182,7 @@ function SocialButtons() {
 
             <button
                 type="button"
+                onClick={() => onSocialLogin && onSocialLogin("Google")}
                 className="
                     h-[44px]
                     border
@@ -186,8 +192,9 @@ function SocialButtons() {
                     items-center
                     justify-center
                     hover:bg-[#F7FAF8]
-                    transition
+                    transition cursor-pointer
                 "
+                title="Login with Google"
             >
                 <span className="text-[#4285F4] font-bold text-[14px]">
                     G
@@ -196,6 +203,7 @@ function SocialButtons() {
 
             <button
                 type="button"
+                onClick={() => onSocialLogin && onSocialLogin("Apple")}
                 className="
                     h-[44px]
                     border
@@ -205,11 +213,12 @@ function SocialButtons() {
                     items-center
                     justify-center
                     hover:bg-[#F7FAF8]
-                    transition
+                    transition cursor-pointer
                 "
+                title="Login with Apple"
             >
                 <span className="text-black text-[14px]">
-                    ●
+                    
                 </span>
             </button>
         </div>
@@ -256,6 +265,7 @@ function LoginScreen({
     handleLogin,
     setForgotEmail,
     setScreen,
+    onSocialLogin,
 }) {
     return (
         <motion.div
@@ -267,6 +277,8 @@ function LoginScreen({
             className="w-full"
         >
             <Logo />
+
+
 
             <div className="mt-8">
                 <h1
@@ -419,7 +431,7 @@ function LoginScreen({
 
             <Divider />
 
-            <SocialButtons />
+            <SocialButtons onSocialLogin={onSocialLogin} />
         </motion.div>
     );
 }
@@ -692,17 +704,7 @@ function VerifyScreen({
                 </button>
             </form>
 
-            <p
-                className="
-                    text-center
-                    text-[9px]
-                    sm:text-[10px]
-                    text-[#9CA3AF]
-                    mt-5
-                "
-            >
-                Demo code: <b>123456</b>
-            </p>
+
         </motion.div>
     );
 }
@@ -842,6 +844,22 @@ export default function LoginPage() {
     const [rememberMe, setRememberMe] = useState(false);
     const [loginError, setLoginError] = useState("");
 
+    const handleSocialLogin = (provider) => {
+        const socialUser = {
+            name: `Cozy Bit (${provider})`,
+            firstName: "Cozy",
+            lastName: "Bit",
+            email: `cozybit.${provider.toLowerCase()}@gmail.com`,
+            phone: "+1 000-000-0000",
+            avatar: monkeyAvatarImg,
+        };
+
+        localStorage.setItem("globeCurrentUser", JSON.stringify(socialUser));
+        localStorage.setItem("globeLoggedIn", "true");
+        window.dispatchEvent(new Event("authChange"));
+        navigate("/");
+    };
+
     const handleLogin = (e) => {
         e.preventDefault();
 
@@ -857,34 +875,62 @@ export default function LoginPage() {
             return;
         }
 
-        const savedUser = JSON.parse(
-            localStorage.getItem("globeUser") || "null"
-        );
+        const isDemo = email.trim().toLowerCase() === "cozybit@gmail.com";
 
-        if (savedUser) {
-            if (
-                savedUser.email !== email ||
-                savedUser.password !== password
-            ) {
-                setLoginError(
-                    "Email or password is incorrect."
-                );
-                return;
-            }
-        } else {
-            localStorage.setItem(
-                "globeUser",
-                JSON.stringify({
-                    email,
-                    password,
-                })
-            );
+        // Read registered users list
+        const users = JSON.parse(localStorage.getItem("globeUsers") || "[]");
+        const singleUser = JSON.parse(localStorage.getItem("globeUser") || "null");
+        if (singleUser && !users.some((u) => u.email === singleUser.email)) {
+            users.push(singleUser);
         }
 
-        localStorage.setItem(
-            "globeLoggedIn",
-            rememberMe ? "true" : "session"
+        const foundUser = users.find(
+            (u) => u.email.trim().toLowerCase() === email.trim().toLowerCase()
         );
+
+        let currentUserObj = null;
+
+        if (foundUser) {
+            if (foundUser.password && foundUser.password !== password) {
+                setLoginError("Email or password is incorrect.");
+                return;
+            }
+            currentUserObj = foundUser;
+        } else if (isDemo) {
+            currentUserObj = {
+                name: "Cozy Bit",
+                firstName: "Cozy",
+                lastName: "Bit",
+                email: "cozybit@gmail.com",
+                phone: "+1 000-000-0000",
+                password: password,
+                avatar: monkeyAvatarImg,
+            };
+        } else {
+            // New account: auto-create dynamically to never block testers
+            const nameFromEmail = email.split("@")[0].replace(/[._-]/g, " ");
+            const capitalized =
+                nameFromEmail.charAt(0).toUpperCase() + nameFromEmail.slice(1);
+            currentUserObj = {
+                name: capitalized || "User",
+                email: email.trim(),
+                password: password,
+                phone: "+1 000-000-0000",
+                avatar: monkeyAvatarImg,
+            };
+            users.push(currentUserObj);
+            localStorage.setItem("globeUsers", JSON.stringify(users));
+        }
+
+        if (!currentUserObj.avatar || currentUserObj.avatar.includes('photo-1535713875002')) {
+            currentUserObj.avatar = monkeyAvatarImg;
+        }
+
+        localStorage.setItem("globeUser", JSON.stringify(currentUserObj));
+        localStorage.setItem("globeCurrentUser", JSON.stringify(currentUserObj));
+        localStorage.setItem("globeLoggedIn", "true");
+
+        window.dispatchEvent(new Event("authChange"));
 
         navigate("/");
     };
@@ -1059,11 +1105,22 @@ export default function LoginPage() {
                 min-h-screen
                 w-full
                 bg-white
+                dark:bg-[#0B130E]
+                text-[#112211]
+                dark:text-[#F3F4F6]
                 grid
                 grid-cols-1
                 lg:grid-cols-2
+                relative
+                transition-colors
+                duration-300
             "
         >
+            {/* Quick floating theme toggle */}
+            <div className="fixed top-4 right-4 z-50">
+                <ThemeToggle />
+            </div>
+
             {/* =================================================
                LEFT — FORM
             ================================================= */}
@@ -1102,6 +1159,7 @@ export default function LoginPage() {
                                 handleLogin={handleLogin}
                                 setForgotEmail={setForgotEmail}
                                 setScreen={setScreen}
+                                onSocialLogin={handleSocialLogin}
                             />
                         )}
 
