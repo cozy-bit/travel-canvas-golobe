@@ -124,11 +124,83 @@ function PasswordInput({
             right-3
             top-1/2
             -translate-y-1/2
-            text-gray-500
-            hover:text-gray-700
+            flex
+            items-center
+            justify-center
+            w-7
+            h-7
+            text-[#6B7280]
+            hover:text-[#374151]
+            transition
           "
+          aria-label={
+            showPassword ? "Hide password" : "Show password"
+          }
         >
-          {showPassword ? "🙈" : "👁️"}
+          {showPassword ? (
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3 3L21 21"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                strokeLinecap="round"
+              />
+
+              <path
+                d="M10.58 10.58C10.21 10.95 10 11.46 10 12C10 13.1 10.9 14 12 14C12.54 14 13.05 13.79 13.42 13.42"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+
+              <path
+                d="M9.88 5.09C10.56 4.9 11.27 4.8 12 4.8C17 4.8 20.5 9.2 21.5 12C21.1 13.1 20.2 14.7 18.75 16.1"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+
+              <path
+                d="M6.61 6.61C4.7 7.88 3.35 9.85 2.5 12C3.5 14.8 7 19.2 12 19.2C13.74 19.2 15.32 18.7 16.65 17.85"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          ) : (
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M2.5 12C3.5 9.2 7 4.8 12 4.8C17 4.8 20.5 9.2 21.5 12C20.5 14.8 17 19.2 12 19.2C7 19.2 3.5 14.8 2.5 12Z"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+
+              <circle
+                cx="12"
+                cy="12"
+                r="3"
+                stroke="currentColor"
+                strokeWidth="1.7"
+              />
+            </svg>
+          )}
         </button>
       </div>
     </div>
